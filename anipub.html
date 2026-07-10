@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AniPub — API Reference</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/AnimePub/AniPub/refs/heads/main/icon/favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+
+<button class="theme-btn" id="themeBtn" title="Toggle dark/light mode">
+  <svg class="icon-moon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  <svg class="icon-sun"  width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+</button>
+
+<button class="mob-menu-btn" id="mobMenuBtn" aria-label="Open navigation">
+  <span></span><span></span><span></span>
+</button>
+<div class="nav-backdrop" id="navBackdrop"></div>
+
+
+<header class="site-header">
+  <div class="hdr-left">
+    <a href="#" class="logo">
+      <div class="logo-mark">
+         <img style="    width: 100%;
+    height: 100%;" src="https://raw.githubusercontent.com/AnimePub/AniPub/refs/heads/main/Logo/Logo-1-AniPub.png" alt="">
+      </div>
+      <span class="logo-text">AniPub</span>
+      <span class="logo-sep">/</span>
+      <span class="logo-sub">API</span>
+    </a>
+  </div>
+  <div class="hdr-center">
+    <div class="base-pill">
+      <span class="bp-label">BASE</span>
+      <span class="bp-url">https://anipub.xyz</span>
+      <button class="bp-copy" onclick="copyText('https://anipub.xyz',this)">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="hdr-right">
+    <a href="https://anipub.xyz" target="_blank" rel="noopener" class="hdr-link">Visit Site ↗</a>
+    <span class="ver-tag">v1</span>
+  </div>
+</header>
+
+
+<div class="app-layout">
+
+
+  <aside class="sidebar" id="sidebar">
+    <nav class="sb-nav">
+
+      <div class="sb-group">
+        <div class="sb-group-label">Overview</div>
+        <a href="#intro"  class="sb-link" data-s="intro">Introduction</a>
+        <a href="#errors" class="sb-link" data-s="errors">Error Codes</a>
+      </div>
+
+      <div class="sb-group">
+        <div class="sb-group-label">Endpoints</div>
+        <a href="#ep-info"   class="sb-link" data-s="ep-info">
+          <span class="sb-badge get">GET</span><span class="sb-path">/api/info/<em>:id</em></span>
+        </a>
+        <a href="#ep-getall" class="sb-link" data-s="ep-getall">
+          <span class="sb-badge get">GET</span><span class="sb-path">/api/getAll</span>
+        </a>
+        <a href="#ep-find"   class="sb-link" data-s="ep-find">
+          <span class="sb-badge get">GET</span><span class="sb-path">/api/find/<em>:name</em></span>
+        </a>
+        <a href="#ep-stream" class="sb-link" data-s="ep-stream">
+          <span class="sb-badge get">GET</span><span class="sb-path">/v1/api/details/<em>:id</em></span>
+        </a>
+        <a href="#ep-adet"   class="sb-link" data-s="ep-adet">
+          <span class="sb-badge get">GET</span><span class="sb-path">/anime/api/details/<em>:id</em></span>
+        </a>
+        <a href="#ep-genre"  class="sb-link" data-s="ep-genre">
+          <span class="sb-badge get">GET</span><span class="sb-path">/api/findbyGenre/<em>:genre</em></span>
+        </a>
+        <a href="#ep-check"  class="sb-link" data-s="ep-check">
+          <span class="sb-badge post">POST</span><span class="sb-path">/api/check</span>
+        </a>
+        <a href="#ep-rating" class="sb-link" data-s="ep-rating">
+          <span class="sb-badge get">GET</span><span class="sb-path">/api/findbyrating</span>
+        </a>
+        <a href="#ep-search" class="sb-link" data-s="ep-search">
+          <span class="sb-badge get">GET</span><span class="sb-path">/api/search/<em>:name</em></span>
+        </a>
+        <a href="#ep-searchall" class="sb-link" data-s="ep-searchall">
+          <span class="sb-badge get">GET</span><span class="sb-path">/api/searchall/<em>:name</em></span>
+        </a>
+        <a href="#ep-getlast" class="sb-link" data-s="ep-getlast">
+          <span class="sb-badge get">GET</span><span class="sb-path">/api/getlast</span>
+        </a>
+        <a href="#ep-sort" class="sb-link" data-s="ep-sort">
+          <span class="sb-badge get">GET</span><span class="sb-path">/api/sort</span>
+        </a>
+      </div>
+
+      <div class="sb-group">
+        <div class="sb-group-label">Live Tools</div>
+        <a href="#playground"    class="sb-link" data-s="playground">⚡ Playground</a>
+        <a href="#genre-browser" class="sb-link" data-s="genre-browser">🎌 Genre Browser</a>
+      </div>
+
+    </nav>
+    <div class="sb-footer">
+      <div class="sb-live"><span class="sb-pulse"></span>API Live</div>
+      <div class="sb-stat">
+        <span class="sb-stat-num" id="sbCount">—</span>
+        <span class="sb-stat-lbl">anime listed</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="page-main">
+
+    <!--  HERO  -->
+    <section class="hero" id="hero">
+      <div class="hero-grid"></div>
+      <div class="hero-orb orb-1"></div>
+      <div class="hero-orb orb-2"></div>
+      <div class="hero-inner">
+        <div class="hero-badge">
+          <span class="hb-dot"></span>
+          Free · No Auth · REST · JSON · CORS enabled
+        </div>
+        <h1 class="hero-title">
+          <span class="ht-main">AniPub</span>
+          <span class="ht-accent">API</span>
+        </h1>
+        <p class="hero-desc">Anime metadata, streaming links, MAL integration, characters &amp; voice actors — all from one clean, free API.</p>
+        <div class="hero-stats">
+          <div class="h-stat"><span class="h-sn" id="heroCount">…</span><span class="h-sl">Anime</span></div>
+          <div class="h-sep"></div>
+          <div class="h-stat"><span class="h-sn">12</span><span class="h-sl">Endpoints</span></div>
+          <div class="h-sep"></div>
+          <div class="h-stat"><span class="h-sn">Free</span><span class="h-sl">No Key</span></div>
+          <div class="h-sep"></div>
+          <div class="h-stat"><span class="h-sn">CORS</span><span class="h-sl">Open</span></div>
+        </div>
+        <div class="hero-url-box">
+          <span class="hub-s">https://</span><span class="hub-h">anipub.xyz</span>
+          <button class="hub-btn" onclick="copyText('https://anipub.xyz',this)">Copy</button>
+        </div>
+        <div class="hero-ep-list">
+          <div class="hep"><span class="hep-m get">GET</span><code>/api/info/:id</code><span class="hep-n">integer <em>or</em> slug like <code>one-piece</code></span></div>
+          <div class="hep"><span class="hep-m get">GET</span><code>/api/find/:name</code><span class="hep-n">check existence + episode count</span></div>
+          <div class="hep"><span class="hep-m get">GET</span><code>/api/findbyGenre/:genre?Page=2</code><span class="hep-n">paginated genre results</span></div>
+          <div class="hep"><span class="hep-m get">GET</span><code>/api/findbyrating?page=1</code><span class="hep-n">top-rated, paginated</span></div>
+          <div class="hep"><span class="hep-m get">GET</span><code>/api/search/:name</code><span class="hep-n">quick search · flat array</span></div>
+          <div class="hep"><span class="hep-m get">GET</span><code>/api/searchall/:name?page=1</code><span class="hep-n">paginated full search</span></div>
+          <div class="hep"><span class="hep-m post">POST</span><code>/api/check</code><span class="hep-n">name + genre match check</span></div>
+          <div class="hep"><span class="hep-m get">GET</span><code>/api/getlast</code><span class="hep-n">last document ID</span></div>
+          <div class="hep"><span class="hep-m get">GET</span><code>/api/sort?name&genre&ratefrom&rateto&page</code><span class="hep-n">advanced filter</span></div>
+        </div>
+      </div>
+    </section>
+
+    
+    <section class="doc-sec" id="intro">
+      <h2 class="sec-h">Introduction</h2>
+      <p class="sec-p">All responses are <code>JSON</code>. CORS is enabled so you can call directly from the browser. Standard HTTP status codes. No API key needed.</p>
+      <div class="callout info"><span class="ci">💡</span><div><strong>Image URLs:</strong> When <code>ImagePath</code> or <code>Cover</code> don't begin with <code>https://</code>, prepend <code>https://anipub.xyz/</code> to build the full URL.</div></div>
+      <div class="callout tip"><span class="ci">📌</span><div><strong>ID Formats:</strong> <code>/api/info/:id</code> accepts an integer <em>or</em> a slug. Slugs use lowercase, spaces become <code>-</code>, no special characters. Examples: <code>one-piece</code>, <code>black-clover</code>, <code>high-school-dxd</code>, <code>date-a-live-iv</code>.</div></div>
+    </section>
+
+
+    <section class="doc-sec" id="errors">
+      <h2 class="sec-h">Error Codes</h2>
+      <div class="tbl-wrap">
+        <table class="dtable">
+          <thead><tr><th>Status</th><th>Name</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td><span class="stag ok">200</span></td><td>OK</td><td>Request succeeded — JSON returned</td></tr>
+            <tr><td><span class="stag warn">400</span></td><td>Bad Request</td><td>Missing or invalid parameters</td></tr>
+            <tr><td><span class="stag warn">404</span></td><td>Not Found</td><td>No anime with that ID or name</td></tr>
+            <tr><td><span class="stag err">500</span></td><td>Server Error</td><td>Internal error — retry</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!--  GET /api/info/:id  -->
+    <section class="doc-sec" id="ep-info">
+      <div class="ep-hdr">
+        <span class="ep-badge get">GET</span>
+        <code class="ep-path">/api/info/<em class="ep-p">:id</em></code>
+      </div>
+      <h2 class="sec-h">Get Anime Info</h2>
+      <p class="sec-p">Full metadata for one anime. <code>:id</code> is an integer <strong>or</strong> a kebab-case slug (spaces → hyphens, no special chars, lowercase).</p>
+      <div class="callout tip"><span class="ci">✅</span><div>Works with: <code>/api/info/61</code> &nbsp;·&nbsp; <code>/api/info/black-clover</code> &nbsp;·&nbsp; <code>/api/info/one-piece</code> &nbsp;·&nbsp; <code>/api/info/high-school-dxd</code></div></div>
+      <div class="params-card">
+        <div class="pc-head">Path Parameter</div>
+        <div class="pc-row">
+          <span class="pr-n">id</span>
+          <span class="pr-t">integer <em>or</em> string</span>
+          <span class="pr-req">required</span>
+          <span class="pr-d">Numeric ID like <code>61</code> or slug like <code>black-clover</code></span>
+        </div>
+      </div>
+      <div class="code-block">
+        <div class="code-tabs">
+          <button class="ctab active" data-target="info-js">JS</button>
+          <button class="ctab" data-target="info-py">Python</button>
+          <button class="ctab" data-target="info-php">PHP</button>
+          <button class="ctab" data-target="info-curl">cURL</button>
+          <button class="ctab" data-target="info-go">Go</button>
+          <button class="ctab" data-target="info-ruby">Ruby</button>
+        </div>
+        <div class="code-pane active" id="info-js">
+          <div class="code-bar"><span class="cb-lang">javascript</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code><span class="ck">async function</span> <span class="cf">getAnimeInfo</span>(<span class="cv">idOrSlug</span>) {
+  <span class="cm">// idOrSlug can be:  61  OR  "black-clover"  OR  "one-piece"</span>
+  <span class="ck">const</span> <span class="cv">res</span>  = <span class="ck">await</span> fetch(<span class="cs">`https://anipub.xyz/api/info/<span class="ci">${idOrSlug}</span>`</span>);
+  <span class="ck">if</span> (!<span class="cv">res</span>.ok) <span class="ck">throw new</span> Error(<span class="cv">res</span>.status);
+  <span class="ck">const</span> <span class="cv">d</span> = <span class="ck">await</span> <span class="cv">res</span>.json();
+
+  <span class="cm">// Resolve relative image paths</span>
+  <span class="ck">const</span> fix = <span class="cv">p</span> => <span class="cv">p</span>?.startsWith(<span class="cs">'https://'</span>) ? <span class="cv">p</span> : <span class="cs">`https://anipub.xyz/<span class="ci">${p}</span>`</span>;
+  <span class="cv">d</span>.ImagePath = fix(<span class="cv">d</span>.ImagePath);
+  <span class="cv">d</span>.Cover     = fix(<span class="cv">d</span>.Cover);
+  <span class="ck">return</span> <span class="cv">d</span>;
+}
+
+<span class="cm">// By ID</span>
+<span class="ck">await</span> getAnimeInfo(<span class="cn">61</span>);
+
+<span class="cm">// By slug  (spaces → hyphens, lowercase, no special chars)</span>
+<span class="ck">await</span> getAnimeInfo(<span class="cs">'black-clover'</span>);
+<span class="ck">await</span> getAnimeInfo(<span class="cs">'one-piece'</span>);
+<span class="ck">await</span> getAnimeInfo(<span class="cs">'high-school-dxd'</span>);</code></pre>
+        </div>
+        <div class="code-pane" id="info-py">
+          <div class="code-bar"><span class="cb-lang">python</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code><span class="ck">import</span> requests
+
+<span class="ck">def</span> get_anime_info(<span class="cv">id_or_slug</span>):
+    <span class="cm"># Works with int ID or slug string</span>
+    <span class="cv">r</span> = requests.get(<span class="cs">f"https://anipub.xyz/api/info/<span class="ci">{id_or_slug}</span>"</span>)
+    <span class="cv">r</span>.raise_for_status()
+    <span class="cv">d</span> = <span class="cv">r</span>.json()
+    <span class="ck">for</span> <span class="cv">k</span> <span class="ck">in</span> (<span class="cs">"ImagePath"</span>, <span class="cs">"Cover"</span>):
+        <span class="ck">if</span> <span class="cv">d</span>.get(<span class="cv">k</span>) <span class="ck">and not</span> <span class="cv">d</span>[<span class="cv">k</span>].startswith(<span class="cs">"https://"</span>):
+            <span class="cv">d</span>[<span class="cv">k</span>] = <span class="cs">f"https://anipub.xyz/<span class="ci">{d[k]}</span>"</span>
+    <span class="ck">return</span> <span class="cv">d</span>
+
+print(get_anime_info(<span class="cn">61</span>)[<span class="cs">"Name"</span>])           <span class="cm"># integer ID</span>
+print(get_anime_info(<span class="cs">"one-piece"</span>)[<span class="cs">"Name"</span>])   <span class="cm"># slug</span></code></pre>
+        </div>
+        <div class="code-pane" id="info-php">
+          <div class="code-bar"><span class="cb-lang">php</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code><span class="ck">function</span> getAnimeInfo(<span class="cv">$idOrSlug</span>) {
+    <span class="cv">$url</span>  = <span class="cs">"https://anipub.xyz/api/info/"</span> . <span class="cv">$idOrSlug</span>;
+    <span class="cv">$data</span> = json_decode(file_get_contents(<span class="cv">$url</span>), <span class="ck">true</span>);
+    <span class="ck">foreach</span> ([<span class="cs">'ImagePath'</span>, <span class="cs">'Cover'</span>] <span class="ck">as</span> <span class="cv">$k</span>)
+        <span class="ck">if</span> (!str_starts_with(<span class="cv">$data</span>[<span class="cv">$k</span>] ?? <span class="cs">''</span>, <span class="cs">'https://'</span>))
+            <span class="cv">$data</span>[<span class="cv">$k</span>] = <span class="cs">'https://anipub.xyz/'</span> . <span class="cv">$data</span>[<span class="cv">$k</span>];
+    <span class="ck">return</span> <span class="cv">$data</span>;
+}
+print_r(getAnimeInfo(<span class="cn">61</span>));             <span class="cm">// integer</span>
+print_r(getAnimeInfo(<span class="cs">'one-piece'</span>));   <span class="cm">// slug</span></code></pre>
+        </div>
+        <div class="code-pane" id="info-curl">
+          <div class="code-bar"><span class="cb-lang">bash</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code><span class="cm"># Integer ID</span>
+curl <span class="cs">"https://anipub.xyz/api/info/61"</span>
+
+<span class="cm"># Slug — lowercase, hyphens for spaces, no special chars</span>
+curl <span class="cs">"https://anipub.xyz/api/info/black-clover"</span>
+curl <span class="cs">"https://anipub.xyz/api/info/one-piece"</span>
+curl <span class="cs">"https://anipub.xyz/api/info/high-school-dxd"</span>
+
+curl <span class="cs">"https://anipub.xyz/api/info/one-piece"</span> | jq <span class="cs">'.'</span></code></pre>
+        </div>
+        <div class="code-pane" id="info-go">
+          <div class="code-bar"><span class="cb-lang">go</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code><span class="ck">type</span> AnimeInfo <span class="ck">struct</span> {
+    ID        int      `json:"_id"`
+    Name      string   `json:"Name"`
+    ImagePath string   `json:"ImagePath"`
+    MALScore  string   `json:"MALScore"`
+    Genres    []string `json:"Genres"`
+    Status    string   `json:"Status"`
+    EpCount   int      `json:"epCount"`
+}
+
+<span class="cm">// idOrSlug: "61" or "black-clover"</span>
+resp, _ := http.Get(<span class="cs">"https://anipub.xyz/api/info/black-clover"</span>)
+<span class="ck">defer</span> resp.Body.Close()
+<span class="ck">var</span> a AnimeInfo
+json.NewDecoder(resp.Body).Decode(&a)
+<span class="ck">if</span> !strings.HasPrefix(a.ImagePath, <span class="cs">"https://"</span>) {
+    a.ImagePath = <span class="cs">"https://anipub.xyz/"</span> + a.ImagePath
+}</code></pre>
+        </div>
+        <div class="code-pane" id="info-ruby">
+          <div class="code-bar"><span class="cb-lang">ruby</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code><span class="ck">require</span> <span class="cs">'net/http'</span>; <span class="ck">require</span> <span class="cs">'json'</span>
+
+<span class="ck">def</span> get_info(id_or_slug)
+  d = JSON.parse(Net::HTTP.get(URI(
+    <span class="cs">"https://anipub.xyz/api/info/<span class="ci">#{id_or_slug}</span>"</span>
+  )))
+  [<span class="cs">'ImagePath'</span>, <span class="cs">'Cover'</span>].each { |k|
+    d[k] = <span class="cs">"https://anipub.xyz/<span class="ci">#{d[k]}</span>"</span> <span class="ck">unless</span> d[k].to_s.start_with?(<span class="cs">'https://'</span>) }
+  d
+<span class="ck">end</span>
+
+p get_info(<span class="cn">61</span>)[<span class="cs">'Name'</span>]
+p get_info(<span class="cs">'one-piece'</span>)[<span class="cs">'Name'</span>]</code></pre>
+        </div>
+      </div>
+      <button class="try-btn" onclick="toggleTry('try-info')">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg> Try it live
+      </button>
+      <div class="try-panel" id="try-info">
+        <div class="tp-inner">
+          <div class="tp-row">
+            <div class="tp-field"><label>ID or Slug</label><input class="tp-inp" id="info-inp" value="black-clover" placeholder="61 or black-clover" oninput="prevInfo()"></div>
+            <button class="tp-go" onclick="runInfo()">Send →</button>
+          </div>
+          <div class="tp-url" id="info-prev">GET https://anipub.xyz/api/info/black-clover</div>
+        </div>
+        <div class="tp-result" id="info-res"></div>
+        <div class="tp-visual" id="info-vis"></div>
+      </div>
+      <div class="resp-box">
+        <div class="rb-bar"><span class="stag ok">200 OK</span><span class="rb-mime">application/json</span></div>
+<pre class="rb-pre"><code><span class="cp">{</span>
+  <span class="cs">"_id"</span>: <span class="cn">61</span>,
+  <span class="cs">"Name"</span>: <span class="cs">"Black Clover"</span>,
+  <span class="cs">"ImagePath"</span>: <span class="cs">"https://..."</span>,   <span class="cm">// prepend https://anipub.xyz/ if relative</span>
+  <span class="cs">"Cover"</span>: <span class="cs">"https://..."</span>,
+  <span class="cs">"Synonyms"</span>: <span class="cs">"..."</span>,
+  <span class="cs">"Aired"</span>: <span class="cs">"Oct 3, 2017 to Mar 30, 2021"</span>,
+  <span class="cs">"Premiered"</span>: <span class="cs">"Fall 2017"</span>,
+  <span class="cs">"RatingsNum"</span>: <span class="cn">45</span>,
+  <span class="cs">"Genres"</span>: [<span class="cs">"action"</span>, <span class="cs">"fantasy"</span>, <span class="cs">"magic"</span>],
+  <span class="cs">"Studios"</span>: <span class="cs">"Pierrot"</span>,
+  <span class="cs">"DescripTion"</span>: <span class="cs">"..."</span>,
+  <span class="cs">"Duration"</span>: <span class="cs">"25m"</span>,
+  <span class="cs">"MALScore"</span>: <span class="cs">"8.88"</span>,
+  <span class="cs">"Status"</span>: <span class="cs">"Finished Airing"</span>,
+  <span class="cs">"epCount"</span>: <span class="cn">170</span>
+<span class="cp">}</span></code></pre>
+      </div>
+    </section>
+
+    <!--  GET /api/getAll  -->
+    <section class="doc-sec" id="ep-getall">
+      <div class="ep-hdr"><span class="ep-badge get">GET</span><code class="ep-path">/api/getAll</code></div>
+      <h2 class="sec-h">Get Total Count</h2>
+      <p class="sec-p">Returns a plain integer — total anime in the database. Use to determine valid ID range for <code>/api/info/:id</code>.</p>
+      <div class="code-block">
+        <div class="code-tabs">
+          <button class="ctab active" data-target="ga-js">JS</button>
+          <button class="ctab" data-target="ga-py">Python</button>
+          <button class="ctab" data-target="ga-curl">cURL</button>
+          <button class="ctab" data-target="ga-php">PHP</button>
+        </div>
+        <div class="code-pane active" id="ga-js">
+          <div class="code-bar"><span class="cb-lang">javascript</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code><span class="ck">const</span> total = <span class="ck">await</span> (<span class="ck">await</span> fetch(<span class="cs">'https://anipub.xyz/api/getAll'</span>)).json();
+console.log(<span class="cs">`<span class="ci">${total}</span> anime — IDs 1 to <span class="ci">${total}</span>`</span>);</code></pre>
+        </div>
+        <div class="code-pane" id="ga-py">
+          <div class="code-bar"><span class="cb-lang">python</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code>total = requests.get(<span class="cs">"https://anipub.xyz/api/getAll"</span>).json()
+print(<span class="cs">f"Total: <span class="ci">{total}</span>"</span>)</code></pre>
+        </div>
+        <div class="code-pane" id="ga-curl">
+          <div class="code-bar"><span class="cb-lang">bash</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code>curl <span class="cs">"https://anipub.xyz/api/getAll"</span>
+<span class="cm"># → 153</span></code></pre>
+        </div>
+        <div class="code-pane" id="ga-php">
+          <div class="code-bar"><span class="cb-lang">php</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code><span class="cv">$n</span> = json_decode(file_get_contents(<span class="cs">'https://anipub.xyz/api/getAll'</span>));
+echo <span class="cs">"Total: <span class="ci">$n</span>"</span>;</code></pre>
+        </div>
+      </div>
+      <button class="try-btn" onclick="toggleTry('try-ga')">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg> Try it live
+      </button>
+      <div class="try-panel" id="try-ga">
+        <div class="tp-inner">
+          <div class="tp-row"><div class="tp-url">GET https://anipub.xyz/api/getAll</div><button class="tp-go" onclick="runGetAll()">Send →</button></div>
+        </div>
+        <div class="tp-result" id="ga-res"></div>
+      </div>
+    </section>
+
+    <!--  GET /api/find/:name  -->
+    <section class="doc-sec" id="ep-find">
+      <div class="ep-hdr"><span class="ep-badge get">GET</span><code class="ep-path">/api/find/<em class="ep-p">:name</em></code></div>
+      <h2 class="sec-h">Find Anime by Name</h2>
+      <p class="sec-p">Check if an anime exists. Returns <code>{"exist":true,"id":10,"ep":1155}</code> or <code>{"exist":false}</code>.</p>
+      <div class="params-card">
+        <div class="pc-head">Path Parameter</div>
+        <div class="pc-row"><span class="pr-n">name</span><span class="pr-t">string</span><span class="pr-req">required</span><span class="pr-d">URL-encoded name — spaces as <code>%20</code></span></div>
+      </div>
+      <div class="code-block">
+        <div class="code-tabs">
+          <button class="ctab active" data-target="fn-js">JS</button>
+          <button class="ctab" data-target="fn-py">Python</button>
+          <button class="ctab" data-target="fn-curl">cURL</button>
+          <button class="ctab" data-target="fn-go">Go</button>
+        </div>
+        <div class="code-pane active" id="fn-js">
+          <div class="code-bar"><span class="cb-lang">javascript</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code><span class="ck">const</span> findAnime = <span class="ck">async</span> name => (<span class="ck">await</span> fetch(
+  <span class="cs">`https://anipub.xyz/api/find/<span class="ci">${encodeURIComponent(name)}</span>`</span>
+)).json();
+
+<span class="ck">const</span> r = <span class="ck">await</span> findAnime(<span class="cs">'One Piece'</span>);
+<span class="cm">// → { exist: true, id: 10, ep: 1155 }</span>
+
+<span class="ck">if</span> (r.exist) {
+  <span class="ck">const</span> info = <span class="ck">await</span> fetch(<span class="cs">`https://anipub.xyz/api/info/<span class="ci">${r.id}</span>`</span>).then(x => x.json());
+}</code></pre>
+        </div>
+        <div class="code-pane" id="fn-py">
+          <div class="code-bar"><span class="cb-lang">python</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code><span class="ck">from</span> urllib.parse <span class="ck">import</span> quote
+r = requests.get(<span class="cs">f"https://anipub.xyz/api/find/<span class="ci">{quote('One Piece')}</span>"</span>).json()
+if r[<span class="cs">"exist"</span>]:
+    print(<span class="cs">f"ID=<span class="ci">{r['id']}</span>  ep=<span class="ci">{r['ep']}</span>"</span>)</code></pre>
+        </div>
+        <div class="code-pane" id="fn-curl">
+          <div class="code-bar"><span class="cb-lang">bash</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code>curl <span class="cs">"https://anipub.xyz/api/find/One%20Piece"</span>
+<span class="cm"># → {"exist":true,"id":10,"ep":1155}</span>
+
+curl <span class="cs">"https://anipub.xyz/api/find/Does%20Not%20Exist"</span>
+<span class="cm"># → {"exist":false}</span></code></pre>
+        </div>
+        <div class="code-pane" id="fn-go">
+          <div class="code-bar"><span class="cb-lang">go</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code><span class="ck">type</span> FindResult <span class="ck">struct</span> { Exist bool `json:"exist"`; ID int `json:"id"`; Ep int `json:"ep"` }
+resp, _ := http.Get(<span class="cs">"https://anipub.xyz/api/find/"</span> + url.PathEscape(<span class="cs">"One Piece"</span>))
+<span class="ck">var</span> r FindResult
+json.NewDecoder(resp.Body).Decode(&r)</code></pre>
+        </div>
+      </div>
+      <button class="try-btn" onclick="toggleTry('try-find')">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg> Try it live
+      </button>
+      <div class="try-panel" id="try-find">
+        <div class="tp-inner">
+          <div class="tp-row">
+            <div class="tp-field"><label>Anime Name</label><input class="tp-inp" id="find-inp" value="One Piece" oninput="prevFind()"></div>
+            <button class="tp-go" onclick="runFind()">Send →</button>
+          </div>
+          <div class="tp-url" id="find-prev">GET https://anipub.xyz/api/find/One%20Piece</div>
+        </div>
+        <div class="tp-result" id="find-res"></div>
+        <div class="tp-visual" id="find-vis"></div>
+      </div>
+    </section>
+
+    <!--  GET /v1/api/details/:id  -->
+    <section class="doc-sec" id="ep-stream">
+      <div class="ep-hdr"><span class="ep-badge get">GET</span><code class="ep-path">/v1/api/details/<em class="ep-p">:id</em></code></div>
+      <h2 class="sec-h">Streaming Links</h2>
+      <p class="sec-p">Returns iframe streaming links per episode. Strip the <code>src=</code> prefix from each <code>link</code> value to get the raw iframe URL.</p>
+      <div class="callout tip"><span class="ci">📌</span><div><strong>Episode mapping:</strong> <code>local.link</code> (top-level) = <strong>Episode 1</strong>. The <code>local.ep[]</code> array starts from <strong>Episode 2</strong> onwards — so ep array index 0 = EP 2, index 1 = EP 3, etc.</div></div>
+      <div class="callout warn"><span class="ci">⚠️</span><div><code>_id</code> may be a MongoDB ObjectId string — deprecated. Use the URL <code>:id</code> parameter as the canonical identifier.</div></div>
+      <div class="code-block">
+        <div class="code-tabs">
+          <button class="ctab active" data-target="st-js">JS</button>
+          <button class="ctab" data-target="st-py">Python</button>
+          <button class="ctab" data-target="st-curl">cURL</button>
+          <button class="ctab" data-target="st-php">PHP</button>
+        </div>
+        <div class="code-pane active" id="st-js">
+          <div class="code-bar"><span class="cb-lang">javascript</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code><span class="ck">const</span> { local } = <span class="ck">await</span> (<span class="ck">await</span> fetch(
+  <span class="cs">'https://anipub.xyz/v1/api/details/119'</span>
+)).json();
+
+<span class="ck">const</span> src = link => link.replace(<span class="cs">'src='</span>, <span class="cs">''</span>);
+
+<span class="cm">// EP 1 — top-level link (NOT in the ep array)</span>
+iframeEl.src = src(local.link);
+
+<span class="cm">// EP 2, 3, 4... — ep[] array starts at episode 2</span>
+<span class="ck">const</span> allEps = [
+  { ep: <span class="cn">1</span>, src: src(local.link) },               <span class="cm">// EP 1</span>
+  ...local.ep.map((e, i) => ({ ep: i+<span class="cn">2</span>, src: src(e.link) })) <span class="cm">// EP 2+</span>
+];</code></pre>
+        </div>
+        <div class="code-pane" id="st-py">
+          <div class="code-bar"><span class="cb-lang">python</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code>local = requests.get(<span class="cs">"https://anipub.xyz/v1/api/details/119"</span>).json()[<span class="cs">"local"</span>]
+
+<span class="cm"># EP 1 is the top-level link, NOT inside ep[]</span>
+ep1 = local[<span class="cs">"link"</span>].replace(<span class="cs">"src="</span>, <span class="cs">""</span>)
+print(<span class="cs">f"EP1: <span class="ci">{ep1}</span>"</span>)
+
+<span class="cm"># EP 2, 3, 4... — ep[] array begins at episode 2</span>
+<span class="ck">for</span> i, ep <span class="ck">in</span> enumerate(local[<span class="cs">"ep"</span>], <span class="cn">2</span>):
+    print(<span class="cs">f"EP<span class="ci">{i}</span>: <span class="ci">{ep['link'].replace('src=','')}</span>"</span>)</code></pre>
+        </div>
+        <div class="code-pane" id="st-curl">
+          <div class="code-bar"><span class="cb-lang">bash</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code>curl <span class="cs">"https://anipub.xyz/v1/api/details/119"</span> | \
+  jq <span class="cs">'.local.ep[].link | ltrimstr("src=")'</span></code></pre>
+        </div>
+        <div class="code-pane" id="st-php">
+          <div class="code-bar"><span class="cb-lang">php</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code><span class="cv">$local</span> = json_decode(file_get_contents(
+  <span class="cs">'https://anipub.xyz/v1/api/details/119'</span>
+), true)[<span class="cs">'local'</span>];
+<span class="ck">foreach</span> (<span class="cv">$local</span>[<span class="cs">'ep'</span>] <span class="ck">as</span> <span class="cv">$i</span> => <span class="cv">$ep</span>)
+    echo <span class="cs">"EP"</span>.(<span class="cv">$i</span>+<span class="cn">1</span>).<span class="cs">": "</span>.str_replace(<span class="cs">'src='</span>,<span class="cs">''</span>,<span class="cv">$ep</span>[<span class="cs">'link'</span>]).<span class="cs">"\n"</span>;</code></pre>
+        </div>
+      </div>
+      <button class="try-btn" onclick="toggleTry('try-stream')">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg> Try it live
+      </button>
+      <div class="try-panel" id="try-stream">
+        <div class="tp-inner">
+          <div class="tp-row">
+            <div class="tp-field"><label>Anime ID</label><input type="number" class="tp-inp" id="stream-inp" value="119" min="1" oninput="prevSimple('stream-prev','https://anipub.xyz/v1/api/details/',this.value)"></div>
+            <button class="tp-go" onclick="runStream()">Send →</button>
+          </div>
+          <div class="tp-url" id="stream-prev">GET https://anipub.xyz/v1/api/details/119</div>
+        </div>
+        <div class="tp-result" id="stream-res"></div>
+        <div class="tp-visual" id="stream-vis"></div>
+      </div>
+      <div class="resp-box">
+        <div class="rb-bar"><span class="stag ok">200 OK</span><span class="rb-mime">application/json</span></div>
+<pre class="rb-pre"><code><span class="cp">{</span>
+  <span class="cs">"local"</span>: <span class="cp">{</span>
+    <span class="cs">"name"</span>: <span class="cs">"Black Clover"</span>,
+    <span class="cs">"link"</span>: <span class="cs">"src=https://..."</span>,  <span class="cm">// ← strip "src=" → EP 1 iframe src</span>
+    <span class="cs">"ep"</span>: <span class="cp">[</span>
+      <span class="cp">{</span> <span class="cs">"link"</span>: <span class="cs">"src=https://..."</span> <span class="cp">}</span>,  <span class="cm">// ep[0] = EP 2</span>
+      <span class="cp">{</span> <span class="cs">"link"</span>: <span class="cs">"src=https://..."</span> <span class="cp">}</span>,  <span class="cm">// ep[1] = EP 3</span>
+      <span class="cs">"..."</span>
+    <span class="cp">]</span>
+  <span class="cp">}</span>
+<span class="cp">}</span></code></pre>
+      </div>
+    </section>
+
+    <!--  GET /anime/api/details/:id  -->
+    <section class="doc-sec" id="ep-adet">
+      <div class="ep-hdr"><span class="ep-badge get">GET</span><code class="ep-path">/anime/api/details/<em class="ep-p">:id</em></code></div>
+      <h2 class="sec-h">Full Details + MAL + Characters</h2>
+      <p class="sec-p">Returns <code>local</code> (metadata), <code>jikan</code> (MAL data), and <code>characters</code> (cast + voice actors). The most complete endpoint.</p>
+      <div class="code-block">
+        <div class="code-tabs">
+          <button class="ctab active" data-target="ad-js">JS</button>
+          <button class="ctab" data-target="ad-py">Python</button>
+          <button class="ctab" data-target="ad-curl">cURL</button>
+          <button class="ctab" data-target="ad-go">Go</button>
+        </div>
+        <div class="code-pane active" id="ad-js">
+          <div class="code-bar"><span class="cb-lang">javascript</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code><span class="ck">const</span> { local, jikan, characters } = <span class="ck">await</span> (<span class="ck">await</span> fetch(
+  <span class="cs">'https://anipub.xyz/anime/api/details/119'</span>
+)).json();
+
+<span class="ck">const</span> fix = p => p?.startsWith(<span class="cs">'https://'</span>) ? p : <span class="cs">`https://anipub.xyz/<span class="ci">${p}</span>`</span>;
+
+console.log(local.Name, local.MALScore);
+console.log(jikan?.synopsis);
+
+characters.forEach(c => {
+  console.log(c.character.name, c.role);
+  c.voice_actors.forEach(va => console.log(<span class="cs">'  VA:'</span>, va.person.name, va.language));
+});</code></pre>
+        </div>
+        <div class="code-pane" id="ad-py">
+          <div class="code-bar"><span class="cb-lang">python</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code>data = requests.get(<span class="cs">"https://anipub.xyz/anime/api/details/119"</span>).json()
+local, chars = data[<span class="cs">"local"</span>], data[<span class="cs">"characters"</span>]
+print(local[<span class="cs">"Name"</span>], local[<span class="cs">"MALScore"</span>])
+<span class="ck">for</span> c <span class="ck">in</span> chars:
+    print(<span class="cs">f"  <span class="ci">{c['character']['name']}</span> — <span class="ci">{c['role']}</span>"</span>)</code></pre>
+        </div>
+        <div class="code-pane" id="ad-curl">
+          <div class="code-bar"><span class="cb-lang">bash</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code>curl <span class="cs">"https://anipub.xyz/anime/api/details/119"</span> | jq <span class="cs">'.'</span>
+curl <span class="cs">"https://anipub.xyz/anime/api/details/119"</span> | \
+  jq <span class="cs">'.characters[] | {name:.character.name, role}'</span></code></pre>
+        </div>
+        <div class="code-pane" id="ad-go">
+          <div class="code-bar"><span class="cb-lang">go</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code><span class="ck">var</span> res <span class="ck">struct</span> {
+    Local struct{ Name string `json:"Name"` } `json:"local"`
+    Characters []struct{
+        Character struct{ Name string `json:"name"` } `json:"character"`
+        Role string `json:"role"`
+    } `json:"characters"`
+}
+json.NewDecoder(resp.Body).Decode(&res)</code></pre>
+        </div>
+      </div>
+      <button class="try-btn" onclick="toggleTry('try-adet')">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg> Try it live
+      </button>
+      <div class="try-panel" id="try-adet">
+        <div class="tp-inner">
+          <div class="tp-row">
+            <div class="tp-field"><label>Anime ID</label><input type="number" class="tp-inp" id="adet-inp" value="119" min="1" oninput="prevSimple('adet-prev','https://anipub.xyz/anime/api/details/',this.value)"></div>
+            <button class="tp-go" onclick="runAdet()">Send →</button>
+          </div>
+          <div class="tp-url" id="adet-prev">GET https://anipub.xyz/anime/api/details/119</div>
+        </div>
+        <div class="tp-result" id="adet-res"></div>
+        <div class="tp-visual" id="adet-vis"></div>
+      </div>
+    </section>
+
+    <!--  GET /api/findbyGenre/:genre  -->
+    <section class="doc-sec" id="ep-genre">
+      <div class="ep-hdr"><span class="ep-badge get">GET</span><code class="ep-path">/api/findbyGenre/<em class="ep-p">:genre</em></code></div>
+      <h2 class="sec-h">Browse by Genre</h2>
+      <p class="sec-p">Paginated anime list by genre. Add <code>?Page=2</code> for next pages. Response: <code>{"currentPage":1,"wholePage":[...]}</code>.</p>
+      <div class="params-card">
+        <div class="pc-head">Parameters</div>
+        <div class="pc-row"><span class="pr-n">genre</span><span class="pr-t">string</span><span class="pr-req">path</span><span class="pr-d">e.g. <code>harem</code>, <code>action</code>, <code>romance</code></span></div>
+        <div class="pc-row"><span class="pr-n">Page</span><span class="pr-t">integer</span><span class="pr-opt">query · optional</span><span class="pr-d">Page number, default <code>1</code>. Append <code>?Page=2</code>.</span></div>
+      </div>
+      <div class="code-block">
+        <div class="code-tabs">
+          <button class="ctab active" data-target="gn-js">JS</button>
+          <button class="ctab" data-target="gn-py">Python</button>
+          <button class="ctab" data-target="gn-curl">cURL</button>
+          <button class="ctab" data-target="gn-php">PHP</button>
+        </div>
+        <div class="code-pane active" id="gn-js">
+          <div class="code-bar"><span class="cb-lang">javascript</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code><span class="ck">const</span> findByGenre = <span class="ck">async</span> (genre, page = <span class="cn">1</span>) => {
+  <span class="ck">const</span> data = <span class="ck">await</span> (<span class="ck">await</span> fetch(
+    <span class="cs">`https://anipub.xyz/api/findbyGenre/<span class="ci">${genre}</span>?Page=<span class="ci">${page}</span>`</span>
+  )).json();
+  console.log(<span class="cs">`Page <span class="ci">${data.currentPage}</span> — <span class="ci">${data.wholePage.length}</span> results`</span>);
+  <span class="ck">return</span> data.wholePage;
+};
+
+findByGenre(<span class="cs">'harem'</span>);       <span class="cm">// page 1</span>
+findByGenre(<span class="cs">'harem'</span>, <span class="cn">2</span>);    <span class="cm">// page 2</span>
+findByGenre(<span class="cs">'action'</span>, <span class="cn">3</span>);  <span class="cm">// page 3</span></code></pre>
+        </div>
+        <div class="code-pane" id="gn-py">
+          <div class="code-bar"><span class="cb-lang">python</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code><span class="ck">def</span> find_by_genre(genre, page=<span class="cn">1</span>):
+    d = requests.get(
+        <span class="cs">f"https://anipub.xyz/api/findbyGenre/<span class="ci">{genre}</span>?Page=<span class="ci">{page}</span>"</span>
+    ).json()
+    <span class="ck">return</span> d[<span class="cs">"wholePage"</span>]
+
+<span class="ck">for</span> a <span class="ck">in</span> find_by_genre(<span class="cs">"harem"</span>):
+    print(<span class="cs">f"[<span class="ci">{a['_id']}</span>] <span class="ci">{a['Name']}</span> — <span class="ci">{a['MALScore']}</span>"</span>)</code></pre>
+        </div>
+        <div class="code-pane" id="gn-curl">
+          <div class="code-bar"><span class="cb-lang">bash</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code>curl <span class="cs">"https://anipub.xyz/api/findbyGenre/harem"</span>
+curl <span class="cs">"https://anipub.xyz/api/findbyGenre/harem?Page=2"</span>
+curl <span class="cs">"https://anipub.xyz/api/findbyGenre/action"</span> | jq <span class="cs">'.wholePage[].Name'</span></code></pre>
+        </div>
+        <div class="code-pane" id="gn-php">
+          <div class="code-bar"><span class="cb-lang">php</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code><span class="cv">$data</span> = json_decode(file_get_contents(
+    <span class="cs">"https://anipub.xyz/api/findbyGenre/harem?Page=1"</span>
+), true);
+<span class="ck">foreach</span> (<span class="cv">$data</span>[<span class="cs">'wholePage'</span>] <span class="ck">as</span> <span class="cv">$a</span>)
+    echo <span class="cv">$a</span>[<span class="cs">'Name'</span>] . <span class="cs">" — "</span> . <span class="cv">$a</span>[<span class="cs">'MALScore'</span>] . <span class="cs">"\n"</span>;</code></pre>
+        </div>
+      </div>
+      <button class="try-btn" onclick="toggleTry('try-genre')">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg> Try it live
+      </button>
+      <div class="try-panel" id="try-genre">
+        <div class="tp-inner">
+          <div class="tp-row">
+            <div class="tp-field"><label>Genre</label><input class="tp-inp" id="genre-inp" value="harem" oninput="prevGenre()"></div>
+            <div class="tp-field" style="max-width:76px"><label>Page</label><input type="number" class="tp-inp" id="genre-page" value="1" min="1" oninput="prevGenre()"></div>
+            <button class="tp-go" onclick="runGenre()">Send →</button>
+          </div>
+          <div class="tp-url" id="genre-prev">GET https://anipub.xyz/api/findbyGenre/harem?Page=1</div>
+        </div>
+        <div class="tp-result" id="genre-res"></div>
+        <div class="tp-visual" id="genre-vis"></div>
+        <div class="tp-pager" id="genre-pager"></div>
+      </div>
+    </section>
+
+    <!--  POST /api/check  -->
+    <section class="doc-sec" id="ep-check">
+      <div class="ep-hdr"><span class="ep-badge post">POST</span><code class="ep-path">/api/check</code></div>
+      <h2 class="sec-h">Check Name &amp; Genre</h2>
+      <p class="sec-p">Verifies an anime exists by name and genre. <code>Genre</code> accepts a string or an array of strings.</p>
+      <div class="params-card">
+        <div class="pc-head">Request Body (JSON)</div>
+        <div class="pc-row"><span class="pr-n">Name</span><span class="pr-t">string</span><span class="pr-req">required</span><span class="pr-d">Anime name to match</span></div>
+        <div class="pc-row"><span class="pr-n">Genre</span><span class="pr-t">string | array</span><span class="pr-req">required</span><span class="pr-d"><code>"Action"</code> or <code>["Action","Drama"]</code></span></div>
+      </div>
+      <div class="code-block">
+        <div class="code-tabs">
+          <button class="ctab active" data-target="ck-js">JS</button>
+          <button class="ctab" data-target="ck-py">Python</button>
+          <button class="ctab" data-target="ck-curl">cURL</button>
+          <button class="ctab" data-target="ck-php">PHP</button>
+          <button class="ctab" data-target="ck-ax">Axios</button>
+        </div>
+        <div class="code-pane active" id="ck-js">
+          <div class="code-bar"><span class="cb-lang">javascript</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code><span class="ck">const</span> checkAnime = <span class="ck">async</span> (name, genre) => (<span class="ck">await</span> fetch(<span class="cs">'https://anipub.xyz/api/check'</span>, {
+  method: <span class="cs">'POST'</span>,
+  headers: { <span class="cs">'Content-Type'</span>: <span class="cs">'application/json'</span> },
+  body: JSON.stringify({ Name: name, Genre: genre })
+})).json();
+
+checkAnime(<span class="cs">'Black Clover'</span>, <span class="cs">'Action'</span>);
+checkAnime(<span class="cs">'Jujutsu Kaisen'</span>, [<span class="cs">'Action'</span>, <span class="cs">'Drama'</span>]);</code></pre>
+        </div>
+        <div class="code-pane" id="ck-py">
+          <div class="code-bar"><span class="cb-lang">python</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code>res = requests.post(<span class="cs">"https://anipub.xyz/api/check"</span>, json={
+    <span class="cs">"Name"</span>: <span class="cs">"Jujutsu Kaisen"</span>, <span class="cs">"Genre"</span>: [<span class="cs">"Action"</span>, <span class="cs">"Drama"</span>]
+}).json()</code></pre>
+        </div>
+        <div class="code-pane" id="ck-curl">
+          <div class="code-bar"><span class="cb-lang">bash</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code>curl -X POST <span class="cs">"https://anipub.xyz/api/check"</span> \
+  -H <span class="cs">"Content-Type: application/json"</span> \
+  -d <span class="cs">'{"Name":"Black Clover","Genre":["Action","Fantasy"]}'</span></code></pre>
+        </div>
+        <div class="code-pane" id="ck-php">
+          <div class="code-bar"><span class="cb-lang">php</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code><span class="cv">$ch</span> = curl_init(<span class="cs">'https://anipub.xyz/api/check'</span>);
+curl_setopt_array(<span class="cv">$ch</span>, [
+    CURLOPT_POST           => <span class="ck">true</span>,
+    CURLOPT_POSTFIELDS     => json_encode([<span class="cs">'Name'</span>=><span class="cs">'Black Clover'</span>,<span class="cs">'Genre'</span>=>[<span class="cs">'Action'</span>]]),
+    CURLOPT_RETURNTRANSFER => <span class="ck">true</span>,
+    CURLOPT_HTTPHEADER     => [<span class="cs">'Content-Type: application/json'</span>],
+]);</code></pre>
+        </div>
+        <div class="code-pane" id="ck-ax">
+          <div class="code-bar"><span class="cb-lang">axios</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code><span class="ck">const</span> { data } = <span class="ck">await</span> axios.post(<span class="cs">'https://anipub.xyz/api/check'</span>, {
+  Name: <span class="cs">'Jujutsu Kaisen'</span>, Genre: [<span class="cs">'Action'</span>, <span class="cs">'Drama'</span>]
+});</code></pre>
+        </div>
+      </div>
+      <button class="try-btn" onclick="toggleTry('try-check')">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg> Try it live
+      </button>
+      <div class="try-panel" id="try-check">
+        <div class="tp-inner">
+          <div class="tp-row">
+            <div class="tp-field"><label>Name</label><input class="tp-inp" id="ck-name" value="Black Clover"></div>
+            <div class="tp-field"><label>Genre (comma-sep)</label><input class="tp-inp" id="ck-genre" value="Action"></div>
+            <button class="tp-go" onclick="runCheck()">Send →</button>
+          </div>
+        </div>
+        <div class="tp-result" id="check-res"></div>
+        <div class="tp-visual" id="check-vis"></div>
+      </div>
+    </section>
+
+<!-- ══ NEW: GET /api/findbyrating ══ -->
+<section class="doc-sec" id="ep-rating">
+  <div class="ep-hdr"><span class="ep-badge get">GET</span><code class="ep-path">/api/findbyrating</code></div>
+  <h2 class="sec-h">Browse by Rating</h2>
+  <p class="sec-p">Returns a paginated list of top-rated anime, sorted by MAL score descending. Use <code>?page=2</code> to navigate pages.</p>
+  <div class="params-card">
+    <div class="pc-head">Query Parameters</div>
+    <div class="pc-row"><span class="pr-n">page</span><span class="pr-t">integer</span><span class="pr-opt">optional</span><span class="pr-d">Page number, default <code>1</code>. Append <code>?page=2</code>, <code>?page=3</code>…</span></div>
+  </div>
+  <div class="code-block">
+    <div class="code-tabs">
+      <button class="ctab active" data-target="rt-js">JS</button>
+      <button class="ctab" data-target="rt-py">Python</button>
+      <button class="ctab" data-target="rt-curl">cURL</button>
+    </div>
+    <div class="code-pane active" id="rt-js">
+      <div class="code-bar"><span class="cb-lang">javascript</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code><span class="ck">const</span> getTopRated = <span class="ck">async</span> (page = <span class="cn">1</span>) => {
+  <span class="ck">const</span> data = <span class="ck">await</span> (<span class="ck">await</span> fetch(
+    <span class="cs">`https://anipub.xyz/api/findbyrating?page=<span class="ci">${page}</span>`</span>
+  )).json();
+  <span class="cm">// data.AniData — array of anime</span>
+  <span class="cm">// data.currentPage — current page number</span>
+  <span class="ck">return</span> data;
+};
+
+<span class="ck">const</span> p1 = <span class="ck">await</span> getTopRated();      <span class="cm">// page 1</span>
+<span class="ck">const</span> p2 = <span class="ck">await</span> getTopRated(<span class="cn">2</span>);   <span class="cm">// page 2</span>
+p1.AniData.forEach(a => console.log(a.Name, a.MALScore));</code></pre>
+    </div>
+    <div class="code-pane" id="rt-py">
+      <div class="code-bar"><span class="cb-lang">python</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code><span class="ck">def</span> get_top_rated(page=<span class="cn">1</span>):
+    d = requests.get(<span class="cs">f"https://anipub.xyz/api/findbyrating?page=<span class="ci">{page}</span>"</span>).json()
+    <span class="ck">return</span> d.get(<span class="cs">"AniData"</span>, [])
+
+<span class="ck">for</span> a <span class="ck">in</span> get_top_rated():
+    print(<span class="cs">f"<span class="ci">{a['Name']}</span> — <span class="ci">{a['MALScore']}</span>"</span>)</code></pre>
+    </div>
+    <div class="code-pane" id="rt-curl">
+      <div class="code-bar"><span class="cb-lang">bash</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code>curl <span class="cs">"https://anipub.xyz/api/findbyrating"</span>
+curl <span class="cs">"https://anipub.xyz/api/findbyrating?page=2"</span>
+curl <span class="cs">"https://anipub.xyz/api/findbyrating?page=1"</span> | jq <span class="cs">'.AniData[].Name'</span></code></pre>
+    </div>
+  </div>
+  <button class="try-btn" onclick="toggleTry('try-rating')">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg> Try it live
+  </button>
+  <div class="try-panel" id="try-rating">
+    <div class="tp-inner">
+      <div class="tp-row">
+        <div class="tp-field" style="max-width:80px"><label>Page</label><input type="number" class="tp-inp" id="rating-page" value="1" min="1" oninput="prevRating()"></div>
+        <button class="tp-go" onclick="runRating()">Send →</button>
+      </div>
+      <div class="tp-url" id="rating-prev">GET https://anipub.xyz/api/findbyrating?page=1</div>
+    </div>
+    <div class="tp-result" id="rating-res"></div>
+    <div class="tp-visual" id="rating-vis"></div>
+    <div class="tp-pager" id="rating-pager"></div>
+  </div>
+  <div class="resp-box">
+    <div class="rb-bar"><span class="stag ok">200 OK</span><span class="rb-mime">application/json</span></div>
+<pre class="rb-pre"><code><span class="cp">{</span>
+  <span class="cs">"currentPage"</span>: <span class="cn">1</span>,
+  <span class="cs">"AniData"</span>: [
+    <span class="cp">{</span>
+      <span class="cs">"_id"</span>: <span class="cn">2454</span>,
+      <span class="cs">"Name"</span>: <span class="cs">"Frieren: Beyond Journey's End"</span>,
+      <span class="cs">"ImagePath"</span>: <span class="cs">"https://..."</span>,
+      <span class="cs">"MALScore"</span>: <span class="cs">"9.36"</span>,
+      <span class="cs">"RatingsNum"</span>: <span class="cn">50</span>,
+      <span class="cs">"DescripTion"</span>: <span class="cs">"..."</span>,
+      <span class="cs">"finder"</span>: <span class="cs">"frieren-beyond-journeys-end"</span>
+    <span class="cp">}</span>
+  ]
+<span class="cp">}</span></code></pre>
+  </div>
+</section>
+
+<!-- ══ NEW: GET /api/search/:name ══ -->
+<section class="doc-sec" id="ep-search">
+  <div class="ep-hdr"><span class="ep-badge get">GET</span><code class="ep-path">/api/search/<em class="ep-path">:name</em></code></div>
+  <h2 class="sec-h">Quick Search</h2>
+  <p class="sec-p">Fast search by anime name. Returns a flat array of matching results — ideal for autocomplete, search boxes, and quick lookups. No pagination.</p>
+  <div class="params-card">
+    <div class="pc-head">Path Parameter</div>
+    <div class="pc-row"><span class="pr-n">name</span><span class="pr-t">string</span><span class="pr-req">required</span><span class="pr-d">Search query — URL-encode spaces as <code>%20</code></span></div>
+  </div>
+  <div class="code-block">
+    <div class="code-tabs">
+      <button class="ctab active" data-target="qs-js">JS</button>
+      <button class="ctab" data-target="qs-py">Python</button>
+      <button class="ctab" data-target="qs-curl">cURL</button>
+      <button class="ctab" data-target="qs-php">PHP</button>
+    </div>
+    <div class="code-pane active" id="qs-js">
+      <div class="code-bar"><span class="cb-lang">javascript</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code><span class="ck">const</span> quickSearch = <span class="ck">async</span> (query) => (<span class="ck">await</span> fetch(
+  <span class="cs">`https://anipub.xyz/api/search/<span class="ci">${encodeURIComponent(query)}</span>`</span>
+)).json();
+
+<span class="ck">const</span> results = <span class="ck">await</span> quickSearch(<span class="cs">'One Piece'</span>);
+<span class="cm">// → [ { Name, Id, Image, finder }, ... ]</span>
+
+<span class="cm">// Great for a live search input</span>
+searchInput.addEventListener(<span class="cs">'input'</span>, <span class="ck">async</span> (e) => {
+  <span class="ck">if</span> (e.target.value.length < <span class="cn">2</span>) <span class="ck">return</span>;
+  <span class="ck">const</span> hits = <span class="ck">await</span> quickSearch(e.target.value);
+  renderDropdown(hits);
+});</code></pre>
+    </div>
+    <div class="code-pane" id="qs-py">
+      <div class="code-bar"><span class="cb-lang">python</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code><span class="ck">from</span> urllib.parse <span class="ck">import</span> quote
+results = requests.get(
+    <span class="cs">f"https://anipub.xyz/api/search/<span class="ci">{quote('One Piece')}</span>"</span>
+).json()
+<span class="ck">for</span> r <span class="ck">in</span> results:
+    print(<span class="cs">f"[<span class="ci">{r['Id']}</span>] <span class="ci">{r['Name']}</span>"</span>)</code></pre>
+    </div>
+    <div class="code-pane" id="qs-curl">
+      <div class="code-bar"><span class="cb-lang">bash</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code>curl <span class="cs">"https://anipub.xyz/api/search/One%20Piece"</span>
+curl <span class="cs">"https://anipub.xyz/api/search/Attack%20on%20Titan"</span> | jq <span class="cs">'.[].Name'</span></code></pre>
+    </div>
+    <div class="code-pane" id="qs-php">
+      <div class="code-bar"><span class="cb-lang">php</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code><span class="cv">$results</span> = json_decode(file_get_contents(
+    <span class="cs">"https://anipub.xyz/api/search/"</span> . rawurlencode(<span class="cs">"One Piece"</span>)
+), true);
+<span class="ck">foreach</span> (<span class="cv">$results</span> <span class="ck">as</span> <span class="cv">$r</span>)
+    echo <span class="cv">$r</span>[<span class="cs">'Name'</span>] . <span class="cs">" (ID: "</span> . <span class="cv">$r</span>[<span class="cs">'Id'</span>] . <span class="cs">")\n"</span>;</code></pre>
+    </div>
+  </div>
+  <button class="try-btn" onclick="toggleTry('try-search')">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg> Try it live
+  </button>
+  <div class="try-panel" id="try-search">
+    <div class="tp-inner">
+      <div class="tp-row">
+        <div class="tp-field"><label>Search Query</label><input class="tp-inp" id="search-inp" value="One Piece" placeholder="One Piece" oninput="prevSearch()"></div>
+        <button class="tp-go" onclick="runSearch()">Send →</button>
+      </div>
+      <div class="tp-url" id="search-prev">GET https://anipub.xyz/api/search/One%20Piece</div>
+    </div>
+    <div class="tp-result" id="search-res"></div>
+    <div class="tp-visual" id="search-vis"></div>
+  </div>
+  <div class="resp-box">
+    <div class="rb-bar"><span class="stag ok">200 OK</span><span class="rb-mime">application/json</span></div>
+<pre class="rb-pre"><code><span class="cp">[</span>
+  <span class="cp">{</span>
+    <span class="cs">"Name"</span>:   <span class="cs">"One Piece"</span>,
+    <span class="cs">"Id"</span>:     <span class="cn">10</span>,
+    <span class="cs">"Image"</span>:  <span class="cs">"One-Piece.jpg"</span>,   <span class="cm">// prepend https://anipub.xyz/ if relative</span>
+    <span class="cs">"finder"</span>: <span class="cs">"one-piece"</span>
+  <span class="cp">}</span>,
+  <span class="cp">{</span> <span class="cs">"Name"</span>: <span class="cs">"One Piece Film Red"</span>, <span class="cs">"Id"</span>: <span class="cn">15</span>, ... <span class="cp">}</span>
+<span class="cp">]</span></code></pre>
+  </div>
+</section>
+
+<!-- ══ NEW: GET /api/searchall/:name ══ -->
+<section class="doc-sec" id="ep-searchall">
+  <div class="ep-hdr"><span class="ep-badge get">GET</span><code class="ep-path">/api/searchall/<em class="ep-path">:name</em></code></div>
+  <h2 class="sec-h">Search All (Paginated)</h2>
+  <p class="sec-p">Full paginated search across all anime. Returns <code>AniData</code> array and <code>currentPage</code>. Use <code>?page=2</code> to navigate. More results than <code>/api/search</code>.</p>
+  <div class="params-card">
+    <div class="pc-head">Parameters</div>
+    <div class="pc-row"><span class="pr-n">name</span><span class="pr-t">string</span><span class="pr-req">path</span><span class="pr-d">Search query — URL-encode spaces as <code>%20</code></span></div>
+    <div class="pc-row"><span class="pr-n">page</span><span class="pr-t">integer</span><span class="pr-opt">query · optional</span><span class="pr-d">Page number, default <code>1</code>. Append <code>?page=2</code>.</span></div>
+  </div>
+  <div class="code-block">
+    <div class="code-tabs">
+      <button class="ctab active" data-target="sa-js">JS</button>
+      <button class="ctab" data-target="sa-py">Python</button>
+      <button class="ctab" data-target="sa-curl">cURL</button>
+      <button class="ctab" data-target="sa-php">PHP</button>
+    </div>
+    <div class="code-pane active" id="sa-js">
+      <div class="code-bar"><span class="cb-lang">javascript</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code><span class="ck">const</span> searchAll = <span class="ck">async</span> (query, page = <span class="cn">1</span>) => (<span class="ck">await</span> fetch(
+  <span class="cs">`https://anipub.xyz/api/searchall/<span class="ci">${encodeURIComponent(query)}</span>?page=<span class="ci">${page}</span>`</span>
+)).json();
+
+<span class="ck">const</span> r = <span class="ck">await</span> searchAll(<span class="cs">'One Piece'</span>);
+<span class="cm">// r.AniData — array of full anime objects</span>
+<span class="cm">// r.currentPage — current page</span>
+
+r.AniData.forEach(a =>
+  console.log(<span class="cs">`[<span class="ci">${a._id}</span>] <span class="ci">${a.Name}</span> — <span class="ci">${a.MALScore}</span>`</span>)
+);</code></pre>
+    </div>
+    <div class="code-pane" id="sa-py">
+      <div class="code-bar"><span class="cb-lang">python</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code><span class="ck">def</span> search_all(query, page=<span class="cn">1</span>):
+    <span class="ck">return</span> requests.get(
+        <span class="cs">f"https://anipub.xyz/api/searchall/<span class="ci">{quote(query)}</span>?page=<span class="ci">{page}</span>"</span>
+    ).json()
+
+r = search_all(<span class="cs">"One Piece"</span>)
+<span class="ck">for</span> a <span class="ck">in</span> r.get(<span class="cs">"AniData"</span>, []):
+    print(<span class="cs">f"[<span class="ci">{a['_id']}</span>] <span class="ci">{a['Name']}</span> — <span class="ci">{a['MALScore']}</span>"</span>)</code></pre>
+    </div>
+    <div class="code-pane" id="sa-curl">
+      <div class="code-bar"><span class="cb-lang">bash</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code>curl <span class="cs">"https://anipub.xyz/api/searchall/One%20Piece"</span>
+curl <span class="cs">"https://anipub.xyz/api/searchall/One%20Piece?page=2"</span>
+curl <span class="cs">"https://anipub.xyz/api/searchall/naruto"</span> | jq <span class="cs">'.AniData[].Name'</span></code></pre>
+    </div>
+    <div class="code-pane" id="sa-php">
+      <div class="code-bar"><span class="cb-lang">php</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code><span class="cv">$d</span> = json_decode(file_get_contents(
+    <span class="cs">"https://anipub.xyz/api/searchall/"</span> . rawurlencode(<span class="cs">"One Piece"</span>) . <span class="cs">"?page=1"</span>
+), true);
+<span class="ck">foreach</span> (<span class="cv">$d</span>[<span class="cs">'AniData'</span>] <span class="ck">as</span> <span class="cv">$a</span>)
+    echo <span class="cv">$a</span>[<span class="cs">'Name'</span>] . <span class="cs">" — "</span> . <span class="cv">$a</span>[<span class="cs">'MALScore'</span>] . <span class="cs">"\n"</span>;</code></pre>
+    </div>
+  </div>
+  <button class="try-btn" onclick="toggleTry('try-searchall')">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg> Try it live
+  </button>
+  <div class="try-panel" id="try-searchall">
+    <div class="tp-inner">
+      <div class="tp-row">
+        <div class="tp-field"><label>Query</label><input class="tp-inp" id="sall-inp" value="One Piece" oninput="prevSearchAll()"></div>
+        <div class="tp-field" style="max-width:76px"><label>Page</label><input type="number" class="tp-inp" id="sall-page" value="1" min="1" oninput="prevSearchAll()"></div>
+        <button class="tp-go" onclick="runSearchAll()">Send →</button>
+      </div>
+      <div class="tp-url" id="sall-prev">GET https://anipub.xyz/api/searchall/One%20Piece?page=1</div>
+    </div>
+    <div class="tp-result" id="sall-res"></div>
+    <div class="tp-visual" id="sall-vis"></div>
+    <div class="tp-pager" id="sall-pager"></div>
+  </div>
+  <div class="resp-box">
+    <div class="rb-bar"><span class="stag ok">200 OK</span><span class="rb-mime">application/json</span></div>
+<pre class="rb-pre"><code><span class="cp">{</span>
+  <span class="cs">"currentPage"</span>: <span class="cn">1</span>,
+  <span class="cs">"AniData"</span>: [
+    <span class="cp">{</span>
+      <span class="cs">"_id"</span>: <span class="cn">10</span>,
+      <span class="cs">"Name"</span>: <span class="cs">"One Piece"</span>,
+      <span class="cs">"ImagePath"</span>: <span class="cs">"One-Piece.jpg"</span>,
+      <span class="cs">"MALScore"</span>: <span class="cs">"8.72"</span>,
+      <span class="cs">"RatingsNum"</span>: <span class="cn">50</span>,
+      <span class="cs">"DescripTion"</span>: <span class="cs">"..."</span>,
+      <span class="cs">"finder"</span>: <span class="cs">"one-piece"</span>
+    <span class="cp">}</span>
+  ]
+<span class="cp">}</span></code></pre>
+  </div>
+</section>
+
+
+    <!--  GET /api/getlast  -->
+    <section class="doc-sec" id="ep-getlast">
+      <div class="ep-hdr"><span class="ep-badge get">GET</span><code class="ep-path">/api/getlast</code></div>
+      <h2 class="sec-h">Get Last Document ID</h2>
+      <p class="sec-p">Returns the ID of the most recently added anime in the database. Useful for detecting new additions or setting an upper bound when iterating over IDs.</p>
+      <div class="callout tip"><span class="ci">💡</span><div>Poll this endpoint periodically to check if new anime have been added — compare against your cached last ID.</div></div>
+      <div class="code-block">
+        <div class="code-tabs">
+          <button class="ctab active" data-target="gl-js">JS</button>
+          <button class="ctab" data-target="gl-py">Python</button>
+          <button class="ctab" data-target="gl-curl">cURL</button>
+        </div>
+        <div class="code-pane active" id="gl-js">
+          <div class="code-bar"><span class="cb-lang">javascript</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code><span class="ck">const</span> lastId = <span class="ck">await</span> (<span class="ck">await</span> fetch(
+  <span class="cs">'https://anipub.xyz/api/getlast'</span>
+)).json();
+
+<span class="cm">// Returns a plain number — the latest anime _id</span>
+console.log(<span class="cs">`Latest ID: <span class="ci">${lastId}</span>`</span>);
+
+<span class="cm">// Check for new anime since last visit</span>
+<span class="ck">const</span> cached = localStorage.getItem(<span class="cs">'lastId'</span>);
+<span class="ck">if</span> (cached && lastId > +cached) {
+  console.log(<span class="cs">`<span class="ci">${lastId - +cached}</span> new anime added!`</span>);
+}
+localStorage.setItem(<span class="cs">'lastId'</span>, lastId);</code></pre>
+        </div>
+        <div class="code-pane" id="gl-py">
+          <div class="code-bar"><span class="cb-lang">python</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code>last_id = requests.get(<span class="cs">"https://anipub.xyz/api/getlast"</span>).json()
+print(<span class="cs">f"Latest anime ID: <span class="ci">{last_id}</span>"</span>)</code></pre>
+        </div>
+        <div class="code-pane" id="gl-curl">
+          <div class="code-bar"><span class="cb-lang">bash</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code>curl <span class="cs">"https://anipub.xyz/api/getlast"</span></code></pre>
+        </div>
+      </div>
+      <button class="try-btn" onclick="toggleTry('try-getlast')">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg> Try it live
+      </button>
+      <div class="try-panel" id="try-getlast">
+        <div class="tp-inner">
+          <div class="tp-row">
+            <button class="tp-go" onclick="runGetlast()">Send →</button>
+          </div>
+          <div class="tp-url">GET https://anipub.xyz/api/getlast</div>
+        </div>
+        <div class="tp-result" id="getlast-res"></div>
+        <div class="tp-visual" id="getlast-vis"></div>
+      </div>
+      <div class="resp-box">
+        <div class="rb-bar"><span class="stag ok">200 OK</span><span class="rb-mime">application/json</span></div>
+<pre class="rb-pre"><code><span class="cn">2946</span>   <span class="cm">// plain integer — the _id of the newest document</span></code></pre>
+      </div>
+    </section>
+
+    <!--  GET /api/sort  -->
+    <section class="doc-sec" id="ep-sort">
+      <div class="ep-hdr"><span class="ep-badge get">GET</span><code class="ep-path">/api/sort</code></div>
+      <h2 class="sec-h">Advanced Sort &amp; Filter</h2>
+      <p class="sec-p">Flexible search with simultaneous name query, genre filtering, MAL score range, and pagination. All parameters are optional — combine any subset freely.</p>
+      <div class="callout info"><span class="ci">ℹ️</span><div>All query params are optional. Omit any you don't need. Multiple genres are comma-separated: <code>genre=action,comedy</code></div></div>
+      <div class="params-card">
+        <div class="pc-head">Query Parameters</div>
+        <div class="pc-row">
+          <span class="pr-n">name</span><span class="pr-t">string</span><span class="pr-opt">optional</span>
+          <span class="pr-d">Anime name to search for. URL-encode spaces as <code>%20</code></span>
+        </div>
+        <div class="pc-row">
+          <span class="pr-n">genre</span><span class="pr-t">string</span><span class="pr-opt">optional</span>
+          <span class="pr-d">Comma-separated genres: <code>action,comedy</code> · <code>romance,drama</code></span>
+        </div>
+        <div class="pc-row">
+          <span class="pr-n">ratefrom</span><span class="pr-t">number</span><span class="pr-opt">optional</span>
+          <span class="pr-d">Minimum MAL score (0–10). Default <code>0</code></span>
+        </div>
+        <div class="pc-row">
+          <span class="pr-n">rateto</span><span class="pr-t">number</span><span class="pr-opt">optional</span>
+          <span class="pr-d">Maximum MAL score (0–10). Default <code>10</code></span>
+        </div>
+        <div class="pc-row">
+          <span class="pr-n">page</span><span class="pr-t">integer</span><span class="pr-opt">optional</span>
+          <span class="pr-d">Page number, default <code>1</code>. Navigate with <code>?page=2</code></span>
+        </div>
+      </div>
+      <div class="code-block">
+        <div class="code-tabs">
+          <button class="ctab active" data-target="so-js">JS</button>
+          <button class="ctab" data-target="so-py">Python</button>
+          <button class="ctab" data-target="so-curl">cURL</button>
+          <button class="ctab" data-target="so-php">PHP</button>
+        </div>
+        <div class="code-pane active" id="so-js">
+          <div class="code-bar"><span class="cb-lang">javascript</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code><span class="ck">const</span> sortAnime = <span class="ck">async</span> (opts = {}) => {
+  <span class="ck">const</span> p = <span class="ck">new</span> URLSearchParams();
+  <span class="ck">if</span> (opts.name)     p.set(<span class="cs">'name'</span>,     opts.name);
+  <span class="ck">if</span> (opts.genre)    p.set(<span class="cs">'genre'</span>,    opts.genre);
+  <span class="ck">if</span> (opts.ratefrom) p.set(<span class="cs">'ratefrom'</span>, opts.ratefrom);
+  <span class="ck">if</span> (opts.rateto)   p.set(<span class="cs">'rateto'</span>,   opts.rateto);
+  <span class="ck">if</span> (opts.page)     p.set(<span class="cs">'page'</span>,     opts.page);
+  <span class="ck">return</span> (<span class="ck">await</span> fetch(<span class="cs">`https://anipub.xyz/api/sort?<span class="ci">${p}</span>`</span>)).json();
+};
+
+<span class="cm">// Examples:</span>
+<span class="ck">await</span> sortAnime({ name: <span class="cs">'One Piece'</span>, genre: <span class="cs">'action,comedy'</span> });
+<span class="ck">await</span> sortAnime({ genre: <span class="cs">'romance'</span>, ratefrom: <span class="cs">'7'</span>, rateto: <span class="cs">'10'</span> });
+<span class="ck">await</span> sortAnime({ ratefrom: <span class="cs">'8'</span>, page: <span class="cs">'2'</span> }); <span class="cm">// top scores pg 2</span></code></pre>
+        </div>
+        <div class="code-pane" id="so-py">
+          <div class="code-bar"><span class="cb-lang">python</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code><span class="ck">def</span> sort_anime(name=<span class="ck">None</span>, genre=<span class="ck">None</span>, ratefrom=<span class="cn">0</span>, rateto=<span class="cn">10</span>, page=<span class="cn">1</span>):
+    params = {k: v <span class="ck">for</span> k, v <span class="ck">in</span> {
+        <span class="cs">'name'</span>: name, <span class="cs">'genre'</span>: genre,
+        <span class="cs">'ratefrom'</span>: ratefrom, <span class="cs">'rateto'</span>: rateto, <span class="cs">'page'</span>: page
+    }.items() <span class="ck">if</span> v <span class="ck">is not None</span>}
+    <span class="ck">return</span> requests.get(<span class="cs">"https://anipub.xyz/api/sort"</span>, params=params).json()
+
+<span class="cm"># Examples:</span>
+sort_anime(name=<span class="cs">"One Piece"</span>, genre=<span class="cs">"action,comedy"</span>)
+sort_anime(genre=<span class="cs">"romance"</span>, ratefrom=<span class="cn">7</span>, rateto=<span class="cn">10</span>)
+sort_anime(ratefrom=<span class="cn">8</span>, page=<span class="cn">2</span>)</code></pre>
+        </div>
+        <div class="code-pane" id="so-curl">
+          <div class="code-bar"><span class="cb-lang">bash</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code><span class="cm"># Name + genre filter</span>
+curl <span class="cs">"https://anipub.xyz/api/sort?name=One%20Piece&genre=action,comedy"</span>
+
+<span class="cm"># Score range filter</span>
+curl <span class="cs">"https://anipub.xyz/api/sort?ratefrom=8&rateto=10&page=1"</span>
+
+<span class="cm"># Genre only, paginated</span>
+curl <span class="cs">"https://anipub.xyz/api/sort?genre=romance,drama&page=2"</span></code></pre>
+        </div>
+        <div class="code-pane" id="so-php">
+          <div class="code-bar"><span class="cb-lang">php</span><button class="cb-copy">⎘ Copy</button></div>
+<pre><code><span class="cv">$data</span> = json_decode(file_get_contents(
+    <span class="cs">"https://anipub.xyz/api/sort?"</span> . http_build_query([
+        <span class="cs">'name'</span>     => <span class="cs">'One Piece'</span>,
+        <span class="cs">'genre'</span>    => <span class="cs">'action,comedy'</span>,
+        <span class="cs">'ratefrom'</span> => <span class="cn">0</span>,
+        <span class="cs">'rateto'</span>   => <span class="cn">10</span>,
+        <span class="cs">'page'</span>     => <span class="cn">1</span>,
+    ])
+), true);
+<span class="ck">foreach</span> (<span class="cv">$data</span>[<span class="cn">1</span>] <span class="ck">as</span> <span class="cv">$a</span>)
+    echo <span class="cv">$a</span>[<span class="cs">'Name'</span>] . <span class="cs">" — "</span> . <span class="cv">$a</span>[<span class="cs">'MALScore'</span>] . <span class="cs">"
+"</span>;</code></pre>
+        </div>
+      </div>
+
+      <!-- Live Filter Builder -->
+      <button class="try-btn" onclick="toggleTry('try-sort')">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg> Try it live
+      </button>
+      <div class="try-panel" id="try-sort">
+        <div class="tp-inner">
+          <div class="tp-row">
+            <div class="tp-field"><label>Name (optional)</label><input class="tp-inp" id="sort-name" placeholder="One Piece" oninput="prevSort()"></div>
+            <div class="tp-field"><label>Genre(s)</label><input class="tp-inp" id="sort-genre" placeholder="action,comedy" oninput="prevSort()"></div>
+          </div>
+          <div class="tp-row">
+            <div class="tp-field" style="max-width:90px"><label>Score from</label><input type="number" class="tp-inp" id="sort-from" value="0" min="0" max="10" step="0.1" oninput="prevSort()"></div>
+            <div class="tp-field" style="max-width:90px"><label>Score to</label><input type="number" class="tp-inp" id="sort-to" value="10" min="0" max="10" step="0.1" oninput="prevSort()"></div>
+            <div class="tp-field" style="max-width:74px"><label>Page</label><input type="number" class="tp-inp" id="sort-page" value="1" min="1" oninput="prevSort()"></div>
+            <button class="tp-go" onclick="runSort()">Send →</button>
+          </div>
+          <div class="tp-url" id="sort-prev">GET https://anipub.xyz/api/sort?ratefrom=0&rateto=10&page=1</div>
+        </div>
+        <div class="tp-result" id="sort-res"></div>
+        <div class="tp-visual" id="sort-vis"></div>
+        <div class="tp-pager" id="sort-pager"></div>
+      </div>
+
+      <div class="resp-box">
+        <div class="rb-bar"><span class="stag ok">200 OK</span><span class="rb-mime">application/json</span></div>
+<pre class="rb-pre"><code><span class="cp">[</span>
+  <span class="cn">2</span>,          <span class="cm">// [0] total page count</span>
+  <span class="cp">[</span>           <span class="cm">// [1] array of anime results</span>
+    <span class="cp">{</span>
+      <span class="cs">"_id"</span>:       <span class="cn">1735</span>,
+      <span class="cs">"Name"</span>:      <span class="cs">"One Piece: The Log of the Rivalry!..."</span>,
+      <span class="cs">"ImagePath"</span>: <span class="cs">"https://cdn.noitatnemucod.net/..."</span>,
+      <span class="cs">"MALScore"</span>:  <span class="cs">"6.46"</span>,
+      <span class="cs">"Genres"</span>:    <span class="cp">[</span><span class="cs">"Action"</span>, <span class="cs">"Adventure"</span>, <span class="cs">"Comedy"</span><span class="cp">]</span>,
+      <span class="cs">"finder"</span>:    <span class="cs">"one-piece-the-log-of-the-rivalry-..."</span>
+    <span class="cp">}</span>
+  <span class="cp">]</span>
+<span class="cp">]</span></code></pre>
+      </div>
+      <div class="callout info"><span class="ci">ℹ️</span><div>Response is a 2-element array: <code>[0]</code> = total page count, <code>[1]</code> = the anime results array. Access results via <code>data[1]</code>.</div></div>
+    </section>
+
+    <!--  PLAYGROUND  -->
+    <section class="doc-sec" id="playground">
+      <h2 class="sec-h">⚡ Playground</h2>
+      <p class="sec-p">Fire any request directly. Supports GET and POST.</p>
+      <div class="playground">
+        <div class="pg-bar">
+          <select id="pg-method" class="pg-sel" onchange="togglePgBody()">
+            <option>GET</option><option>POST</option>
+          </select>
+          <input id="pg-url" class="pg-url-inp" value="https://anipub.xyz/api/info/black-clover">
+          <button class="pg-go" onclick="runPlayground()">▶ Run</button>
+        </div>
+        <div id="pg-body-row" class="pg-body-row" style="display:none">
+          <label>Body (JSON)</label>
+          <textarea id="pg-body" class="pg-textarea">{"Name":"Black Clover","Genre":"Action"}</textarea>
+        </div>
+        <div class="pg-result" id="pg-res"></div>
+      </div>
+    </section>
+
+    <!--  GENRE BROWSER  -->
+    <section class="doc-sec" id="genre-browser">
+      <h2 class="sec-h">🎌 Genre Browser</h2>
+      <p class="sec-p">Click any tag to instantly fetch and display live API results.</p>
+      <div class="genre-cloud">
+        <button class="gchip" onclick="quickGenre('harem',this)">Harem</button>
+        <button class="gchip" onclick="quickGenre('action',this)">Action</button>
+        <button class="gchip" onclick="quickGenre('romance',this)">Romance</button>
+        <button class="gchip" onclick="quickGenre('ecchi',this)">Ecchi</button>
+        <button class="gchip" onclick="quickGenre('fantasy',this)">Fantasy</button>
+        <button class="gchip" onclick="quickGenre('school',this)">School</button>
+        <button class="gchip" onclick="quickGenre('drama',this)">Drama</button>
+        <button class="gchip" onclick="quickGenre('supernatural',this)">Supernatural</button>
+        <button class="gchip" onclick="quickGenre('comedy',this)">Comedy</button>
+        <button class="gchip" onclick="quickGenre('adventure',this)">Adventure</button>
+        <button class="gchip" onclick="quickGenre('shounen',this)">Shounen</button>
+        <button class="gchip" onclick="quickGenre('magic',this)">Magic</button>
+      </div>
+      <div id="browser-idle" class="browser-idle">Select a genre above to load results…</div>
+      <div id="browser-hdr" class="browser-hdr" style="display:none">
+        <span id="browser-title" class="browser-title"></span>
+        <div id="browser-pager" class="pager"></div>
+      </div>
+      <div id="browser-grid" class="gc-grid"></div>
+    </section>
+
+    <div style="height:100px"></div>
+  </main>
+</div>
+
+<script src="app.js"></script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a184d267eb22b0f5',t:'MTc4MzU3MzgyMg=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
