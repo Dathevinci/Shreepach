@@ -2,14 +2,19 @@ import PageTransition from "@/components/layout/PageTransition";
 import Link from "next/link";
 import { BookOpen, List, ChevronRight } from "lucide-react";
 import ResumeReading from "./ResumeReading";
+import { getNovelDetails, getNovelChapters } from "@/lib/novel-api";
 
 export default async function NovelDetails({ params }: { params: { id: string } }) {
+  const novelId = parseInt(params.id, 10);
+  if (isNaN(novelId)) return <div className="min-h-screen pt-40 text-center text-white">Invalid Novel ID</div>;
+
   let novel = null;
+  let chapters = [];
+
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/novels/${params.id}`, { cache: "no-store" });
-    if (res.ok) {
-      const data = await res.json();
-      novel = data.data;
+    novel = await getNovelDetails(novelId);
+    if (novel) {
+      chapters = await getNovelChapters(novel.title.romaji || novel.title.english);
     }
   } catch (err) {
     console.error("Error fetching novel details:", err);
@@ -25,14 +30,21 @@ export default async function NovelDetails({ params }: { params: { id: string } 
         <div className="container mx-auto max-w-5xl">
           <div className="flex flex-col md:flex-row gap-8">
             <div className="w-full md:w-1/3 shrink-0">
-              <img src={novel.coverUrl} alt={novel.title} className="w-full rounded-2xl shadow-2xl border border-white/10" />
+              <img 
+                src={novel.coverImage?.extraLarge || novel.coverImage?.large} 
+                alt={novel.title.userPreferred || novel.title.english} 
+                className="w-full rounded-2xl shadow-2xl border border-white/10" 
+              />
             </div>
             <div className="flex-1 text-white">
-              <h1 className="text-4xl md:text-5xl font-cinzel font-bold mb-4">{novel.title}</h1>
-              <p className="text-slate-400 mb-6 text-lg">{novel.description}</p>
+              <h1 className="text-4xl md:text-5xl font-cinzel font-bold mb-4">{novel.title.userPreferred || novel.title.english}</h1>
+              <div 
+                className="text-slate-400 mb-6 text-lg font-garamond"
+                dangerouslySetInnerHTML={{ __html: novel.description || "No description available." }}
+              />
               
               <div className="mb-8">
-                <ResumeReading novel={novel} />
+                <ResumeReading novelId={params.id} chapters={chapters} />
               </div>
               
               <div className="bg-white/5 border border-white/10 rounded-xl p-6">
@@ -41,19 +53,19 @@ export default async function NovelDetails({ params }: { params: { id: string } 
                   Chapters
                 </h2>
                 <div className="space-y-2 max-h-96 overflow-y-auto custom-scrollbar pr-2">
-                  {novel.chapters.map((chapter: any) => (
+                  {chapters.map((chapter: any, index: number) => (
                     <Link 
                       key={chapter.id} 
-                      href={`/novel/${novel.id}/read/${chapter.id}`}
+                      href={`/novel/${params.id}/read/${chapter.id}`}
                       className="flex items-center justify-between p-3 rounded-lg hover:bg-white/10 transition border border-transparent hover:border-white/10 group"
                     >
-                      <span className="font-medium text-slate-200 group-hover:text-indigo-300 transition">
-                        Chapter {chapter.chapterNum}: {chapter.title}
+                      <span className="font-medium text-slate-200 group-hover:text-indigo-300 transition line-clamp-1 pr-4">
+                        {chapter.title || `Chapter ${chapter.number || index + 1}`}
                       </span>
-                      <ChevronRight className="w-5 h-5 text-slate-500 group-hover:text-indigo-400 transition transform group-hover:translate-x-1" />
+                      <ChevronRight className="w-5 h-5 text-slate-500 group-hover:text-indigo-400 transition transform group-hover:translate-x-1 shrink-0" />
                     </Link>
                   ))}
-                  {novel.chapters.length === 0 && (
+                  {chapters.length === 0 && (
                     <p className="text-slate-500 italic">No chapters available yet.</p>
                   )}
                 </div>

@@ -1,34 +1,36 @@
 import PageTransition from "@/components/layout/PageTransition";
 import NovelReader from "./NovelReader";
+import { getNovelDetails, getNovelChapters } from "@/lib/novel-api";
 
 export default async function ReadChapterPage({ params }: { params: { id: string, chapterId: string } }) {
-  let chapter = null;
   let novel = null;
+  let chapters = [];
+  let content = "";
   
   try {
-    const novelRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/novels/${params.id}`, { cache: "no-store" });
-    if (novelRes.ok) {
-      const data = await novelRes.json();
-      novel = data.data;
+    novel = await getNovelDetails(parseInt(params.id, 10));
+    if (novel) {
+      chapters = await getNovelChapters(novel.title.romaji || novel.title.english);
     }
-
-    const chapterRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/novels/${params.id}/chapter/${params.chapterId}`, { cache: "no-store" });
-    if (chapterRes.ok) {
-      const data = await chapterRes.json();
-      chapter = data.data;
-    }
+    const { getNovelChapterContent } = await import('@/lib/novel-api');
+    content = await getNovelChapterContent(params.chapterId);
   } catch (err) {
     console.error("Error fetching reading data:", err);
   }
 
-  if (!chapter || !novel) {
-    return <div className="min-h-screen pt-40 text-center text-white">Chapter not found</div>;
+  if (!novel) {
+    return <div className="min-h-screen pt-40 text-center text-white">Novel not found</div>;
   }
+
+  const currentChapter = chapters.find((c: any) => c.id === params.chapterId) || {
+    id: params.chapterId,
+    title: `Chapter ${params.chapterId}`
+  };
 
   return (
     <PageTransition>
       <div className="pb-20 pt-24 min-h-screen bg-[#09090b] px-4 sm:px-6">
-        <NovelReader novel={novel} chapter={chapter} />
+        <NovelReader novel={novel} chapters={chapters} chapterId={params.chapterId} currentChapterTitle={currentChapter.title} initialContent={content} />
       </div>
     </PageTransition>
   );

@@ -1,3 +1,1 @@
-fetch('https://anikototvapi.vercel.app/api/search?keyword=' + encodeURIComponent("Jigokuraku"))
-  .then(r=>r.json())
-  .then(d=>console.log(d.results.data.slice(0,3).map(i=>({id: i.animeId, title:i.title}))));
+fetch('https://graphql.anilist.co', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ query: 'query { Page(page: 1, perPage: 2) { media(type: MANGA, format: NOVEL, sort: TRENDING_DESC) { id title { romaji english } description coverImage { extraLarge } } } }' }) }).then(r => r.json()).then(d => console.log(JSON.stringify(d, null, 2)))

@@ -5,45 +5,54 @@ import { useUser } from "@/hooks/useUser";
 import Link from "next/link";
 import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
 
-export default function NovelReader({ novel, chapter }: { novel: any, chapter: any }) {
+export default function NovelReader({ 
+  novel, 
+  chapters, 
+  chapterId, 
+  currentChapterTitle, 
+  initialContent 
+}: { 
+  novel: any, 
+  chapters: any[], 
+  chapterId: string, 
+  currentChapterTitle: string, 
+  initialContent: string 
+}) {
   const { user } = useUser();
-  const [content, setContent] = useState("");
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const currentIndex = novel.chapters.findIndex((c: any) => c.id === chapter.id);
-  const prevChapter = currentIndex > 0 ? novel.chapters[currentIndex - 1] : null;
-  const nextChapter = currentIndex < novel.chapters.length - 1 ? novel.chapters[currentIndex + 1] : null;
+  const currentIndex = chapters.findIndex((c: any) => c.id === chapterId);
+  const prevChapter = currentIndex > 0 ? chapters[currentIndex - 1] : null;
+  const nextChapter = currentIndex < chapters.length - 1 ? chapters[currentIndex + 1] : null;
 
   useEffect(() => {
-    setContent(chapter.content);
-
     if (user?.id) {
       fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/novels/${novel.id}/bookmark`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId: user.id, chapterId: chapter.id })
+        body: JSON.stringify({ userId: user.id, chapterId })
       }).catch(console.error);
     }
-  }, [user, novel.id, chapter.id, chapter.content]);
+  }, [user, novel.id, chapterId]);
 
   return (
     <div className="container mx-auto max-w-3xl">
       <div className="mb-8 flex items-center justify-between">
         <Link href={`/novel/${novel.id}`} className="text-slate-400 hover:text-white flex items-center gap-2 transition">
           <ArrowLeft className="w-5 h-5" />
-          Back to {novel.title}
+          Back to {novel.title.userPreferred || novel.title.english}
         </Link>
       </div>
 
       <div className="bg-white/5 border border-white/10 rounded-2xl p-6 sm:p-10 mb-8 shadow-2xl">
         <h1 className="text-2xl sm:text-4xl font-bold font-cinzel text-white mb-8 border-b border-white/10 pb-6 text-center">
-          Chapter {chapter.chapterNum}: {chapter.title}
+          {currentChapterTitle}
         </h1>
         
         <div 
           ref={contentRef}
           className="prose prose-invert prose-lg sm:prose-xl max-w-none font-garamond leading-relaxed text-slate-300"
-          dangerouslySetInnerHTML={{ __html: content.replace(/\n/g, '<br/><br/>') }}
+          dangerouslySetInnerHTML={{ __html: initialContent.replace(/\n/g, '<br/>') }}
         />
       </div>
 

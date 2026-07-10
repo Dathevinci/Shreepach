@@ -1,0 +1,1 @@
+fetch('https://www.novelhall.com/search/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: 'keyword=slime' }).then(r=>r.text()).then(t=>console.log(t.substring(0, 500))).catch(console.error)
