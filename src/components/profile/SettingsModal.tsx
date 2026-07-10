@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Moon, Sun, Lock, Unlock, Save, PlayCircle, EyeOff, Zap, Wifi, Key, User as UserIcon, Link as LinkIcon, Image as ImageIcon, Copy, Camera, UploadCloud, AlertCircle, RefreshCw, Database, Trash2 } from "lucide-react";
@@ -179,7 +179,7 @@ export default function SettingsModal({ user: initialUser, onClose, onUpdate }: 
     const desired = newUsername.trim();
     if (!desired) return toast("Enter a new username.", "error");
     if (desired.toLowerCase() === (user?.username || "").toLowerCase()) return toast("That's already your username.", "error");
-    if (!/^[a-zA-Z0-9_]{3,20}$/.test(desired)) return toast("3–20 characters: letters, numbers, or underscores only.", "error");
+    if (!/^[a-zA-Z0-9_]{3,20}$/.test(desired)) return toast("3â€“20 characters: letters, numbers, or underscores only.", "error");
 
     setIsChangingUsername(true);
     try {
@@ -262,7 +262,7 @@ export default function SettingsModal({ user: initialUser, onClose, onUpdate }: 
   };
 
   const handleWipe = async () => {
-    if (!confirm("Are you sure you want to completely wipe your Da Vinci watchlist? This action cannot be undone.")) return;
+    if (!confirm("Are you sure you want to completely wipe your Shreepach watchlist? This action cannot be undone.")) return;
     setIsSaving(true);
     try {
       await wipeWatchlist();
@@ -534,13 +534,13 @@ export default function SettingsModal({ user: initialUser, onClose, onUpdate }: 
 
               {activeTab === 'account' && (
                 <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2">
-                  {/* Change Username — first change free, then costs Arise Points */}
+                  {/* Change Username â€” first change free, then costs Arise Points */}
                   <div className="bg-white/5 border border-white/10 p-6 rounded-2xl space-y-3">
                     <h3 className="font-bold flex items-center gap-2 text-white"><UserIcon className="w-5 h-5 text-indigo-400" /> Change Username</h3>
                     <p className="text-sm text-slate-400">
                       {usernameIsFree
                         ? "Your first username change is free."
-                        : <>Changing again costs <span className="font-bold text-indigo-300">{USERNAME_COST} Arise Points</span> — you have <span className="font-semibold text-white">{(user?.arisePoints || 0).toLocaleString()}</span>.</>}
+                        : <>Changing again costs <span className="font-bold text-indigo-300">{USERNAME_COST} Arise Points</span> â€” you have <span className="font-semibold text-white">{(user?.arisePoints || 0).toLocaleString()}</span>.</>}
                     </p>
                     <div className="flex flex-col sm:flex-row gap-3">
                       <input
@@ -555,10 +555,10 @@ export default function SettingsModal({ user: initialUser, onClose, onUpdate }: 
                         disabled={isChangingUsername || !newUsername.trim()}
                         className="bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-3 rounded-xl font-bold transition disabled:opacity-50 whitespace-nowrap"
                       >
-                        {isChangingUsername ? "Saving…" : usernameIsFree ? "Change · Free" : `Change · ${USERNAME_COST} AP`}
+                        {isChangingUsername ? "Savingâ€¦" : usernameIsFree ? "Change Â· Free" : `Change Â· ${USERNAME_COST} AP`}
                       </button>
                     </div>
-                    <p className="text-xs text-slate-500">3–20 characters — letters, numbers, or underscores.</p>
+                    <p className="text-xs text-slate-500">3â€“20 characters â€” letters, numbers, or underscores.</p>
                   </div>
 
                   <div className="bg-white/5 border border-white/10 p-6 rounded-2xl space-y-4">
@@ -694,7 +694,7 @@ export default function SettingsModal({ user: initialUser, onClose, onUpdate }: 
                     <div>
                       <h3 className="font-bold text-indigo-300">Invite Keys</h3>
                       <p className="text-xs text-indigo-300/70 mt-1">
-                        {isAdmin(user) ? "Staff overrides enabled — generate unlimited invite keys." : "Generate your free invite key, or buy more with Arise Points."}
+                        {isAdmin(user) ? "Staff overrides enabled â€” generate unlimited invite keys." : "Generate your free invite key, or buy more with Arise Points."}
                       </p>
                     </div>
                     <button
@@ -712,7 +712,7 @@ export default function SettingsModal({ user: initialUser, onClose, onUpdate }: 
                       <div>
                         <h3 className="font-bold text-white">Buy an Extra Invite</h3>
                         <p className="text-xs text-slate-400 mt-1">
-                          Costs <span className="text-indigo-300 font-bold">{INVITE_COST.toLocaleString()} AP</span> — you have <span className="text-white font-semibold">{(user?.arisePoints || 0).toLocaleString()}</span>.
+                          Costs <span className="text-indigo-300 font-bold">{INVITE_COST.toLocaleString()} AP</span> â€” you have <span className="text-white font-semibold">{(user?.arisePoints || 0).toLocaleString()}</span>.
                         </p>
                       </div>
                       <button
@@ -721,7 +721,7 @@ export default function SettingsModal({ user: initialUser, onClose, onUpdate }: 
                         className="bg-white/10 hover:bg-white/20 border border-indigo-500/40 disabled:opacity-50 text-white font-bold py-2 px-4 rounded-xl transition flex items-center gap-2 whitespace-nowrap"
                       >
                         <Key className="w-4 h-4" />
-                        {buyingInvite ? "Buying…" : `Buy — ${INVITE_COST.toLocaleString()} AP`}
+                        {buyingInvite ? "Buyingâ€¦" : `Buy â€” ${INVITE_COST.toLocaleString()} AP`}
                       </button>
                     </div>
                   )}

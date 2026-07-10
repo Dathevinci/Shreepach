@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useUser } from "@/hooks/useUser";
 import { useState } from "react";
@@ -41,7 +41,7 @@ export default function InviteOnlyGuard({ children }: { children: React.ReactNod
         <div className="absolute inset-0 z-0 pointer-events-none bg-[radial-gradient(ellipse_at_50%_35%,rgba(88,44,160,0.20)_0%,transparent_55%)]" />
         <div className="absolute inset-0 z-0 pointer-events-none bg-[radial-gradient(ellipse_at_center,transparent_45%,#050505_100%)]" />
 
-        {/* Faint concentric geometry — a nod to da Vinci's proportion studies */}
+        {/* Faint concentric geometry â€” a nod to Shreepach's proportion studies */}
         <div className="absolute inset-0 z-0 pointer-events-none flex items-center justify-center">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
@@ -75,7 +75,7 @@ export default function InviteOnlyGuard({ children }: { children: React.ReactNod
             className="font-fell text-5xl md:text-7xl font-bold uppercase tracking-[0.2em] pl-[0.2em] mb-3"
             style={AMETHYST}
           >
-            Da Vinci
+            Shreepach
           </motion.h1>
 
           {/* Beta badge */}
@@ -111,10 +111,10 @@ export default function InviteOnlyGuard({ children }: { children: React.ReactNod
             transition={{ duration: 0.9, delay: 0.32, ease: easeCine }}
             className="text-sm md:text-base text-slate-400/80 mb-12 max-w-md mx-auto font-light tracking-wide"
           >
-            Da Vinci is in open beta — present your seal to unlock the vault and begin your study.
+            Shreepach is in open beta â€” present your seal to unlock the vault and begin your study.
           </motion.p>
 
-          {/* Request Access — purple-lined seal button */}
+          {/* Request Access â€” purple-lined seal button */}
           <motion.div
             initial={{ y: 16, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -138,7 +138,7 @@ export default function InviteOnlyGuard({ children }: { children: React.ReactNod
           transition={{ duration: 1, delay: 0.9 }}
           className="absolute bottom-8 text-center text-violet-100/25 text-xs tracking-[0.3em] uppercase font-cinzel"
         >
-          &copy; {new Date().getFullYear()} Da Vinci &middot; All Rights Reserved
+          &copy; {new Date().getFullYear()} Shreepach &middot; All Rights Reserved
         </motion.div>
 
         <AnimatePresence>

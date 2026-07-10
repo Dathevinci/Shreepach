@@ -1,10 +1,10 @@
-"use client";
+﻿"use client";
 
 /**
- * AnikotoPlayer — premium standalone video player.
+ * AnikotoPlayer â€” premium standalone video player.
  *
  * BUG FIX notes vs v1:
- * - <video> is always in the DOM (was conditionally rendered → videoRef.current was null
+ * - <video> is always in the DOM (was conditionally rendered â†’ videoRef.current was null
  *   when HLS tried to attach, so nothing played)
  * - HLS loading moved to a dedicated useEffect that runs AFTER React commits the DOM
  *   (replaces the unreliable setTimeout hack)
@@ -27,7 +27,7 @@ import {
   AnikotoStreamResult,
 } from "@/lib/anikoto";
 
-// ─── helpers ──────────────────────────────────────────────────────────────────
+// â”€â”€â”€ helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function fmt(s: number) {
   if (!isFinite(s) || s < 0) return "0:00";
   const h = Math.floor(s / 3600);
@@ -38,7 +38,7 @@ function fmt(s: number) {
     : `${m}:${String(sec).padStart(2, "0")}`;
 }
 
-// ─── types ────────────────────────────────────────────────────────────────────
+// â”€â”€â”€ types â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export interface AnikotoPlayerProps {
   animeId: string;
   title: string;
@@ -48,7 +48,7 @@ export interface AnikotoPlayerProps {
   posterUrl?: string;
 }
 
-// ─── component ────────────────────────────────────────────────────────────────
+// â”€â”€â”€ component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export default function AnikotoPlayer({
   animeId,
   title,
@@ -67,7 +67,7 @@ export default function AnikotoPlayer({
   /**
    * pendingSource: set by loadEpisode after the URL is resolved.
    * A useEffect watches this and attaches it to the <video> element AFTER
-   * React has committed the DOM — fixing the "videoRef is null" race condition.
+   * React has committed the DOM â€” fixing the "videoRef is null" race condition.
    */
   const [pendingSource, setPendingSource] = useState<{
     url: string;
@@ -116,7 +116,7 @@ export default function AnikotoPlayer({
     return () => { document.body.style.overflow = ""; };
   }, []);
 
-  // ── STEP 1: fetch the stream URL ───────────────────────────────────────────
+  // â”€â”€ STEP 1: fetch the stream URL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const loadEpisode = useCallback(async (epNo: number, type: "sub" | "dub") => {
     if (!mountedRef.current) return;
 
@@ -172,7 +172,7 @@ export default function AnikotoPlayer({
 
       const isEmbed = !!(src as any).isEmbed;
 
-      // Queue the source — the useEffect below will attach it after React renders
+      // Queue the source â€” the useEffect below will attach it after React renders
       setPendingSource({
         url: src.url,
         isM3U8: src.isM3U8,
@@ -187,7 +187,7 @@ export default function AnikotoPlayer({
     }
   }, [animeId, episodes]);
 
-  // ── STEP 2: attach source to DOM after React renders ──────────────────────
+  // â”€â”€ STEP 2: attach source to DOM after React renders â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   // This runs AFTER the <video> element is guaranteed to be in the DOM.
   useEffect(() => {
     if (!pendingSource) return;
@@ -200,7 +200,7 @@ export default function AnikotoPlayer({
     });
 
     if (pendingSource.isEmbed) {
-      // Iframe embed — nothing more to do
+      // Iframe embed â€” nothing more to do
       setLoading(false);
       return;
     }
@@ -265,7 +265,7 @@ export default function AnikotoPlayer({
     loadEpisode(startEp, "sub");
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // ── Video DOM events ───────────────────────────────────────────────────────
+  // â”€â”€ Video DOM events â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
@@ -292,7 +292,7 @@ export default function AnikotoPlayer({
       video.removeEventListener("progress", onProgress);
       video.removeEventListener("volumechange", onVol);
     };
-  }, []); // attach once — the video element never unmounts now
+  }, []); // attach once â€” the video element never unmounts now
 
   // Fullscreen sync
   useEffect(() => {
@@ -301,7 +301,7 @@ export default function AnikotoPlayer({
     return () => document.removeEventListener("fullscreenchange", h);
   }, []);
 
-  // ── Controls auto-hide ─────────────────────────────────────────────────────
+  // â”€â”€ Controls auto-hide â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const resetControlsTimer = useCallback(() => {
     setControlsVisible(true);
     if (controlsTimer.current) clearTimeout(controlsTimer.current);
@@ -312,7 +312,7 @@ export default function AnikotoPlayer({
 
   useEffect(() => { resetControlsTimer(); return () => { if (controlsTimer.current) clearTimeout(controlsTimer.current); }; }, [resetControlsTimer]);
 
-  // ── Keyboard shortcuts ─────────────────────────────────────────────────────
+  // â”€â”€ Keyboard shortcuts â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       const video = videoRef.current;
@@ -330,7 +330,7 @@ export default function AnikotoPlayer({
     return () => window.removeEventListener("keydown", handler);
   }, [showEpisodePanel, onClose, loading]);
 
-  // ── Actions ────────────────────────────────────────────────────────────────
+  // â”€â”€ Actions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const togglePlay = () => {
     const v = videoRef.current;
     if (!v || loading || streamError) return;
@@ -378,7 +378,7 @@ export default function AnikotoPlayer({
   const progressPct = duration > 0 ? (currentTime / duration) * 100 : 0;
   const bufferedPct = duration > 0 ? (buffered / duration) * 100 : 0;
 
-  // ── Render ─────────────────────────────────────────────────────────────────
+  // â”€â”€ Render â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   if (!isBrowser) return null;
 
   return createPortal(
@@ -387,7 +387,7 @@ export default function AnikotoPlayer({
       className="fixed inset-0 z-[99999] bg-black flex flex-col"
       style={{ cursor: controlsVisible || loading || streamError ? "default" : "none" }}
     >
-      {/* ── Media area ─────────────────────────────────────────────────────── */}
+      {/* â”€â”€ Media area â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <div
         className="relative flex-1 overflow-hidden"
         onMouseMove={resetControlsTimer}
@@ -427,13 +427,13 @@ export default function AnikotoPlayer({
           />
         )}
 
-        {/* Custom Da Vinci Watermark Overlay (Covers up original source watermark) */}
+        {/* Custom Shreepach Watermark Overlay (Covers up original source watermark) */}
         <div className="absolute top-4 right-4 md:top-6 md:right-8 z-40 pointer-events-none select-none flex items-center gap-2 px-3 py-1.5 bg-black/60 backdrop-blur-md rounded-lg border border-white/5 shadow-2xl">
-          <img src="/logo.png" alt="Da Vinci" className="w-6 h-6 md:w-8 md:h-8 opacity-80" />
-          <span className="font-fell font-bold tracking-widest text-white/80 text-xs md:text-sm uppercase">Da Vinci</span>
+          <img src="/logo.png" alt="Shreepach" className="w-6 h-6 md:w-8 md:h-8 opacity-80" />
+          <span className="font-fell font-bold tracking-widest text-white/80 text-xs md:text-sm uppercase">Shreepach</span>
         </div>
 
-        {/* ── Loading spinner ──────────────────────────────────────────────── */}
+        {/* â”€â”€ Loading spinner â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
 
         <AnimatePresence>
           {loading && (
@@ -445,12 +445,12 @@ export default function AnikotoPlayer({
               className="absolute inset-0 flex flex-col items-center justify-center gap-4 pointer-events-none"
             >
               <div className="w-16 h-16 rounded-full border-4 border-white/10 border-t-indigo-500 animate-spin" />
-              <p className="text-slate-400 text-sm font-medium">Loading Episode {activeEpNo}…</p>
+              <p className="text-slate-400 text-sm font-medium">Loading Episode {activeEpNo}â€¦</p>
             </motion.div>
           )}
         </AnimatePresence>
 
-        {/* ── Error state ──────────────────────────────────────────────────── */}
+        {/* â”€â”€ Error state â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <AnimatePresence>
           {streamError && !loading && (
             <motion.div
@@ -482,7 +482,7 @@ export default function AnikotoPlayer({
           )}
         </AnimatePresence>
 
-        {/* ── Top Bar (Always available, even for embeds) ────────────────────── */}
+        {/* â”€â”€ Top Bar (Always available, even for embeds) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <AnimatePresence>
           {(controlsVisible || !playing || activeSource?.isEmbed) && !streamError && (
             <motion.div
@@ -526,7 +526,7 @@ export default function AnikotoPlayer({
           )}
         </AnimatePresence>
 
-        {/* ── Center & Bottom Controls (Native HLS only) ────────────────────── */}
+        {/* â”€â”€ Center & Bottom Controls (Native HLS only) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <AnimatePresence>
           {(controlsVisible || !playing) && !streamError && !activeSource?.isEmbed && (
             <motion.div
@@ -659,7 +659,7 @@ export default function AnikotoPlayer({
         </AnimatePresence>
       </div>
 
-      {/* ── Episode panel ──────────────────────────────────────────────────── */}
+      {/* â”€â”€ Episode panel â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <AnimatePresence>
         {showEpisodePanel && (
           <>

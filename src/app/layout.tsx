@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -32,7 +32,7 @@ const fellEnglish = IM_Fell_English_SC({
   variable: "--font-fell",
 });
 
-// Classic Renaissance book serif for elegant, da Vinci-era typography.
+// Classic Renaissance book serif for elegant, Shreepach-era typography.
 const ebGaramond = EB_Garamond({
   weight: ["400", "500"],
   style: ["normal", "italic"],
@@ -54,7 +54,7 @@ import { ToastProvider } from "@/components/ui/Toast";
 import AnimeModalProvider from "@/components/providers/AnimeModalProvider";
 
 export const metadata: Metadata = {
-  title: "Da Vinci",
+  title: "Shreepach",
   description: "A modern, educational anime discovery platform.",
 };
 

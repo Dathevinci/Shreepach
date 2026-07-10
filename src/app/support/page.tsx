@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { Coffee, Heart, Shield, Crown, Zap, Star, ExternalLink, Info, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
@@ -36,7 +36,7 @@ export default function SupportPage() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="text-4xl md:text-6xl font-black mb-6 tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400"
             >
-              Keep Da Vinci Alive
+              Keep Shreepach Alive
             </motion.h1>
             <motion.p 
               initial={{ opacity: 0, y: 20 }}
@@ -70,11 +70,11 @@ export default function SupportPage() {
                   <div className="flex justify-between items-end mb-4">
                     <div>
                       <span className="text-sm font-bold text-slate-400 uppercase tracking-widest">Current Funds</span>
-                      <div className="text-4xl font-black text-white mt-1">£{currentDonation}</div>
+                      <div className="text-4xl font-black text-white mt-1">Â£{currentDonation}</div>
                     </div>
                     <div className="text-right">
                       <span className="text-sm font-bold text-slate-400 uppercase tracking-widest">Goal</span>
-                      <div className="text-2xl font-bold text-slate-500 mt-1">£{monthlyGoal}</div>
+                      <div className="text-2xl font-bold text-slate-500 mt-1">Â£{monthlyGoal}</div>
                     </div>
                   </div>
                   
@@ -109,7 +109,7 @@ export default function SupportPage() {
                 <div>
                   <h3 className="font-bold text-indigo-300 mb-2">Why support us?</h3>
                   <p className="text-slate-400 text-sm leading-relaxed">
-                    Da Vinci is built by anime fans, for anime fans. We completely refuse to use intrusive ads or pop-ups. Your donations directly pay for the high-speed servers, database costs, and continuous development of new features.
+                    Shreepach is built by anime fans, for anime fans. We completely refuse to use intrusive ads or pop-ups. Your donations directly pay for the high-speed servers, database costs, and continuous development of new features.
                   </p>
                 </div>
               </div>
@@ -149,7 +149,7 @@ export default function SupportPage() {
                 <div className="relative z-10 text-center">
                   <Heart className="w-8 h-8 text-red-500 mx-auto mb-3 animate-pulse" />
                   <p className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-1">Recent Supporter</p>
-                  <p className="text-2xl font-black text-white mb-2">Māna-Yood-Sushāī</p>
+                  <p className="text-2xl font-black text-white mb-2">MÄna-Yood-SushÄÄ«</p>
                   <p className="text-sm text-red-200">
                     Thank you! Unlocked the exclusive <strong>Crimson Realm</strong> animated profile effect!
                   </p>

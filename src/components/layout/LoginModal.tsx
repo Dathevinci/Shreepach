@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { X } from "lucide-react";
@@ -37,16 +37,16 @@ export default function LoginModal({ onClose }: { onClose: () => void }) {
       if (mode === "login") {
         const uName = ((res as any).user?.username || identifier).toLowerCase();
         if (uName === 'xhackerdevil') {
-          toast('Welcome Bug Founder 🐞', "success");
+          toast('Welcome Bug Founder ðŸž', "success");
         } else if (isLeadDev(uName)) {
-          toast('Welcome Back, Lead Developer 👑', "success");
+          toast('Welcome Back, Lead Developer ðŸ‘‘', "success");
         } else if (isAdmin(uName)) {
-          toast('Welcome Back, Admin 👑', "success");
+          toast('Welcome Back, Admin ðŸ‘‘', "success");
         } else {
           toast('Welcome Back!', "success");
         }
       } else {
-        toast('Welcome to Da Vinci!', "success");
+        toast('Welcome to Shreepach!', "success");
       }
       onClose();
     } else {
@@ -65,7 +65,7 @@ export default function LoginModal({ onClose }: { onClose: () => void }) {
         {/* Logo */}
         <div className="flex justify-center mb-6">
           <div className="flex items-center gap-3 font-fell font-bold text-2xl tracking-[0.2em] uppercase drop-shadow-md">
-            <img src="/logo.png" alt="Da Vinci Logo" className="w-12 h-12 rounded-full border border-indigo-400/50 shadow-[0_0_15px_rgba(99,102,241,0.4)] object-cover" />
+            <img src="/logo.png" alt="Shreepach Logo" className="w-12 h-12 rounded-full border border-indigo-400/50 shadow-[0_0_15px_rgba(99,102,241,0.4)] object-cover" />
             <span className="text-white">
               DA <span className="text-indigo-400 font-black">VINCI</span>
             </span>
@@ -92,11 +92,11 @@ export default function LoginModal({ onClose }: { onClose: () => void }) {
 
         <h2 className="text-2xl font-black mb-2 text-white text-center">
           {mode === 'login' 
-            ? (isLeadDev(identifier) ? 'Welcome Back, Lead Developer 👑' 
-               : isAdmin(identifier) ? 'Welcome Back, Admin 👑' 
-               : identifier.toLowerCase() === 'xhackerdevil' ? 'Welcome Bug Founder 🐞' 
+            ? (isLeadDev(identifier) ? 'Welcome Back, Lead Developer ðŸ‘‘' 
+               : isAdmin(identifier) ? 'Welcome Back, Admin ðŸ‘‘' 
+               : identifier.toLowerCase() === 'xhackerdevil' ? 'Welcome Bug Founder ðŸž' 
                : 'Welcome Back') 
-            : 'Join Da Vinci'}
+            : 'Join Shreepach'}
         </h2>
         <p className="text-slate-400 mb-6 text-center text-sm">
           {mode === 'login' 
@@ -185,7 +185,7 @@ export default function LoginModal({ onClose }: { onClose: () => void }) {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-indigo-500"
-              placeholder="••••••••"
+              placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
             />
           </div>
           <button 

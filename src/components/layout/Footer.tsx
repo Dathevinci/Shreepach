@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { Compass, Code2, MessageCircle, Radio, Heart, ExternalLink, ShieldCheck, Mail } from "lucide-react";
 
 export default function Footer() {
@@ -14,7 +14,7 @@ export default function Footer() {
           {/* Brand Section */}
           <div className="lg:col-span-1 space-y-6">
             <Link href="/" className="flex items-center gap-3 group inline-flex font-fell font-bold text-2xl tracking-[0.2em] uppercase drop-shadow-md">
-              <img src="/logo.png" alt="Da Vinci Logo" className="w-10 h-10 rounded-full border border-indigo-400/50 shadow-[0_0_15px_rgba(99,102,241,0.4)] object-cover group-hover:shadow-[0_0_20px_rgba(168,85,247,0.6)] transition-all duration-300" />
+              <img src="/logo.png" alt="Shreepach Logo" className="w-10 h-10 rounded-full border border-indigo-400/50 shadow-[0_0_15px_rgba(99,102,241,0.4)] object-cover group-hover:shadow-[0_0_20px_rgba(168,85,247,0.6)] transition-all duration-300" />
               <span className="text-white group-hover:text-indigo-400 transition-all duration-300">
                 DA <span className="text-indigo-400 font-black group-hover:text-purple-400 transition-all duration-300">VINCI</span>
               </span>
@@ -100,7 +100,7 @@ export default function Footer() {
               <div className="flex items-start gap-3">
                 <ShieldCheck className="w-5 h-5 text-indigo-400 shrink-0 mt-0.5" />
                 <p className="text-xs text-slate-400 leading-relaxed">
-                  Da Vinci is strictly an educational tracker interface. We do not host, scrape, or stream any copyrighted material.
+                  Shreepach is strictly an educational tracker interface. We do not host, scrape, or stream any copyrighted material.
                 </p>
               </div>
 
@@ -135,7 +135,7 @@ export default function Footer() {
             Crafted with <Heart className="w-4 h-4 text-red-500 animate-pulse" /> by <span className="text-white font-bold tracking-wide">Dejavuh</span>
           </p>
           <p className="text-xs text-slate-600 font-medium">
-            &copy; {new Date().getFullYear()} Da Vinci Tracker. All rights reserved.
+            &copy; {new Date().getFullYear()} Shreepach Tracker. All rights reserved.
           </p>
         </div>
       </div>

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -103,23 +103,23 @@ export default function SplashScreen() {
           >
             <motion.img
               src="/logo.png"
-              alt="Da Vinci Logo"
+              alt="Shreepach Logo"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
               className="w-32 h-32 md:w-44 md:h-44 rounded-full mb-8 shadow-[0_0_70px_rgba(139,92,246,0.4)] ring-1 ring-violet-300/25"
             />
 
-            {/* Gilded wordmark — Renaissance engraved capitals with a sweeping
+            {/* Gilded wordmark â€” Renaissance engraved capitals with a sweeping
                 gold sheen, revealed letter-by-letter like a Netflix title. */}
             <motion.h1
               initial="hidden"
               animate="visible"
               variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.06, delayChildren: 0.7 } } }}
               className="font-fell text-5xl md:text-7xl font-bold uppercase flex tracking-[0.22em] pl-[0.22em]"
-              aria-label="Da Vinci"
+              aria-label="Shreepach"
             >
-              {"DA VINCI".split("").map((ch, i) => (
+              {"Shreepach".split("").map((ch, i) => (
                 <motion.span
                   key={i}
                   variants={{
@@ -138,7 +138,7 @@ export default function SplashScreen() {
                     textShadow: "0 1px 2px rgba(0,0,0,0.55), 0 0 30px rgba(167,139,250,0.45)",
                   }}
                 >
-                  {ch === " " ? " " : ch}
+                  {ch === " " ? "Â " : ch}
                 </motion.span>
               ))}
             </motion.h1>

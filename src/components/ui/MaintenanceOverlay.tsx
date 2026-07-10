@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import { useUser } from "@/hooks/useUser";
@@ -43,7 +43,7 @@ export default function MaintenanceOverlay() {
   if (isLoaded && isLeadDev(user)) {
     return (
       <div className="fixed bottom-4 left-4 z-[9999] bg-red- text-white px-4 py-2 rounded-full font-bold shadow-[0_0_20px_rgba(220,38,38,0.8)] animate-pulse text-sm pointer-events-none border border-red-400">
-        ⚠️ SERVER OFFLINE FOR USERS
+        âš ï¸ SERVER OFFLINE FOR USERS
       </div>
     );
   }
@@ -63,7 +63,7 @@ export default function MaintenanceOverlay() {
           <h1 className="text-3xl md:text-4xl font-black text-white mb-4">Under Maintenance</h1>
           
           <p className="text-slate-400 text-lg mb-8 leading-relaxed">
-            The Da Vinci platform is currently undergoing highly anticipated upgrades. 
+            The Shreepach platform is currently undergoing highly anticipated upgrades. 
             <br/><br/>
             Our Lead Developer is currently deploying a new cinematic update. Please check back shortly!
           </p>

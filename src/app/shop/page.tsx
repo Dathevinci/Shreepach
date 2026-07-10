@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import PageTransition from "@/components/layout/PageTransition";
@@ -15,25 +15,25 @@ import { motion } from "framer-motion";
 // Effects (particles around your avatar + a matching flourish across your profile).
 const SHOP_ITEMS = [
   // ---- EXTREME RARE ----
-  { id: "effect_tempest", type: "effect", rare: true, name: "Monarch's Tempest", description: "The apex artifact. A cel-shaded thundercloud crowns your avatar with lightning flickering inside it while electric arcs snap around the rim — and when anyone opens your profile, a cinematic storm engulfs their ENTIRE screen: pouring parallax rain, branched lightning strikes, and thunder-flash lighting. Dark-fantasy anime, made real.", price: 7500, icon: CloudLightning, color: "text-sky-300", glow: "shadow-[0_0_24px_rgba(56,189,248,0.8)]", gradient: "from-sky-400 via-indigo-600 to-slate-800" },
+  { id: "effect_tempest", type: "effect", rare: true, name: "Monarch's Tempest", description: "The apex artifact. A cel-shaded thundercloud crowns your avatar with lightning flickering inside it while electric arcs snap around the rim â€” and when anyone opens your profile, a cinematic storm engulfs their ENTIRE screen: pouring parallax rain, branched lightning strikes, and thunder-flash lighting. Dark-fantasy anime, made real.", price: 7500, icon: CloudLightning, color: "text-sky-300", glow: "shadow-[0_0_24px_rgba(56,189,248,0.8)]", gradient: "from-sky-400 via-indigo-600 to-slate-800" },
   { id: "effect_blackhole", type: "effect", rare: true, name: "Event Horizon", description: "A highly detailed Black Hole / Deep Space Galaxy avatar effect. Your avatar becomes the center of an accretion disk while a spiral galaxy orbits around it, consuming doomed stars.", price: 7500, icon: Orbit, color: "text-orange-400", glow: "shadow-[0_0_24px_rgba(255,100,0,0.8)]", gradient: "from-orange-500 via-purple-500 to-black" },
-  { id: "effect_fool", type: "effect", rare: true, name: "Fog of History", description: "Above the Grey Fog, at the bronze table. When anyone opens your profile, the endless Grey Fog rolls across their ENTIRE screen — crimson stars of the Tarot Club pulse deep within it, and silver spirit threads snake out of the mist to bind themselves to your avatar, crowned in an abyssal-black and cosmic-gold aura. He is watching.", price: 6000, icon: CloudFog, color: "text-slate-300", glow: "shadow-[0_0_24px_rgba(203,213,225,0.7)]", gradient: "from-slate-400 via-slate-600 to-amber-700" },
-  { id: "effect_evernight", type: "effect", rare: true, name: "Evernight's Blessing", description: "The night belongs to Her. When anyone opens your profile, a massive Crimson Moon rises over their ENTIRE screen while the River of Eternal Darkness undulates below — and night-vanilla blossoms drift down like snow, swirling into orbit around your avatar, which rests inside an intertwined silver-and-crimson Aura of Concealment. Sleep. Tranquility. Concealment.", price: 6500, icon: Moon, color: "text-rose-300", glow: "shadow-[0_0_24px_rgba(244,63,94,0.7)]", gradient: "from-rose-400 via-rose-800 to-slate-900" },
-  { id: "effect_ascension", type: "effect", rare: true, name: "Voltaic Ascension", description: "The single rarest power in Da Vinci. A storm of amethyst lightning crackles around your avatar while violet smoke pours across your profile — then reality tears open in a warp of light the moment your profile is viewed. Turns your whole profile purple. For the very few.", price: 5000, icon: Zap, color: "text-purple-300", glow: "shadow-[0_0_24px_rgba(168,85,247,0.8)]", gradient: "from-fuchsia-500 via-purple-500 to-indigo-700" },
+  { id: "effect_fool", type: "effect", rare: true, name: "Fog of History", description: "Above the Grey Fog, at the bronze table. When anyone opens your profile, the endless Grey Fog rolls across their ENTIRE screen â€” crimson stars of the Tarot Club pulse deep within it, and silver spirit threads snake out of the mist to bind themselves to your avatar, crowned in an abyssal-black and cosmic-gold aura. He is watching.", price: 6000, icon: CloudFog, color: "text-slate-300", glow: "shadow-[0_0_24px_rgba(203,213,225,0.7)]", gradient: "from-slate-400 via-slate-600 to-amber-700" },
+  { id: "effect_evernight", type: "effect", rare: true, name: "Evernight's Blessing", description: "The night belongs to Her. When anyone opens your profile, a massive Crimson Moon rises over their ENTIRE screen while the River of Eternal Darkness undulates below â€” and night-vanilla blossoms drift down like snow, swirling into orbit around your avatar, which rests inside an intertwined silver-and-crimson Aura of Concealment. Sleep. Tranquility. Concealment.", price: 6500, icon: Moon, color: "text-rose-300", glow: "shadow-[0_0_24px_rgba(244,63,94,0.7)]", gradient: "from-rose-400 via-rose-800 to-slate-900" },
+  { id: "effect_ascension", type: "effect", rare: true, name: "Voltaic Ascension", description: "The single rarest power in Shreepach. A storm of amethyst lightning crackles around your avatar while violet smoke pours across your profile â€” then reality tears open in a warp of light the moment your profile is viewed. Turns your whole profile purple. For the very few.", price: 5000, icon: Zap, color: "text-purple-300", glow: "shadow-[0_0_24px_rgba(168,85,247,0.8)]", gradient: "from-fuchsia-500 via-purple-500 to-indigo-700" },
 
   // ---- Avatar Frames: an animated ring that spins around your avatar everywhere ----
   { id: "frame_amethyst", type: "frame", name: "Amethyst Halo", description: "A violet-and-magenta ring that slowly spins around your avatar. Shows on your profile, your comments, and the nav bar.", price: 90, icon: Aperture, color: "text-purple-400", glow: "shadow-[0_0_15px_rgba(192,132,252,0.5)]", gradient: "from-purple-500 to-fuchsia-600" },
   { id: "frame_gold", type: "frame", name: "Golden Aureole", description: "A ring of molten gold that rotates around your avatar wherever it appears. Pure prestige.", price: 110, icon: CircleDot, color: "text-amber-400", glow: "shadow-[0_0_15px_rgba(251,191,36,0.5)]", gradient: "from-amber-400 to-orange-600" },
-  { id: "frame_ember", type: "frame", name: "Ember Crown", description: "A slowly spinning ring of fire — gold, orange and crimson — that wraps your avatar.", price: 100, icon: Flame, color: "text-red-500", glow: "shadow-[0_0_15px_rgba(239,68,68,0.5)]", gradient: "from-orange-500 to-red-600" },
+  { id: "frame_ember", type: "frame", name: "Ember Crown", description: "A slowly spinning ring of fire â€” gold, orange and crimson â€” that wraps your avatar.", price: 100, icon: Flame, color: "text-red-500", glow: "shadow-[0_0_15px_rgba(239,68,68,0.5)]", gradient: "from-orange-500 to-red-600" },
   { id: "frame_frost", type: "frame", name: "Frost Sigil", description: "A rotating ring of icy cyan and sapphire light that circles your avatar.", price: 100, icon: Snowflake, color: "text-cyan-400", glow: "shadow-[0_0_15px_rgba(34,211,238,0.5)]", gradient: "from-cyan-400 to-blue-600" },
   { id: "frame_verdant", type: "frame", name: "Verdant Ring", description: "A spinning ring of emerald and jade that blooms around your avatar.", price: 90, icon: Orbit, color: "text-emerald-400", glow: "shadow-[0_0_15px_rgba(16,185,129,0.5)]", gradient: "from-emerald-400 to-teal-600" },
 
   // ---- Avatar Effects: particles around your avatar + a flourish across your profile ----
-  { id: "effect_froggie", type: "effect", unique: true, name: "Froggie Frenzy", description: "The cutest thing money can buy. A tiny froggie hops around your avatar everywhere you go — and sprints across your profile going 'ribbit ribbit', with lily pads and pond bubbles. 100% serious. 100% ribbit.", price: 500, icon: Leaf, color: "text-emerald-300", glow: "shadow-[0_0_18px_rgba(52,211,153,0.6)]", gradient: "from-emerald-400 to-lime-500" },
-  { id: "effect_aura", type: "effect", name: "Ethereal Aura", description: "A pulsing violet glow breathes around your avatar — and energy ripples across your whole profile when someone opens it.", price: 110, icon: Sun, color: "text-fuchsia-400", glow: "shadow-[0_0_15px_rgba(217,70,239,0.5)]", gradient: "from-fuchsia-400 to-purple-600" },
-  { id: "effect_sparkles", type: "effect", name: "Astral Dust", description: "Golden sparkles drift and twinkle around your avatar — and shimmer across your whole profile when someone opens it.", price: 100, icon: Sparkles, color: "text-yellow-300", glow: "shadow-[0_0_15px_rgba(253,224,71,0.5)]", gradient: "from-yellow-300 to-yellow-600" },
-  { id: "effect_snow", type: "effect", name: "Winter's Veil", description: "Snowflakes fall gently around your avatar — and drift across your whole profile when someone opens it.", price: 90, icon: Snowflake, color: "text-sky-300", glow: "shadow-[0_0_15px_rgba(125,211,252,0.5)]", gradient: "from-sky-300 to-blue-500" },
-  { id: "effect_embers", type: "effect", name: "Cinder Storm", description: "Glowing embers rise around your avatar — and float up across your whole profile when someone opens it.", price: 90, icon: Flame, color: "text-orange-400", glow: "shadow-[0_0_15px_rgba(251,146,60,0.5)]", gradient: "from-orange-400 to-red-600" },
+  { id: "effect_froggie", type: "effect", unique: true, name: "Froggie Frenzy", description: "The cutest thing money can buy. A tiny froggie hops around your avatar everywhere you go â€” and sprints across your profile going 'ribbit ribbit', with lily pads and pond bubbles. 100% serious. 100% ribbit.", price: 500, icon: Leaf, color: "text-emerald-300", glow: "shadow-[0_0_18px_rgba(52,211,153,0.6)]", gradient: "from-emerald-400 to-lime-500" },
+  { id: "effect_aura", type: "effect", name: "Ethereal Aura", description: "A pulsing violet glow breathes around your avatar â€” and energy ripples across your whole profile when someone opens it.", price: 110, icon: Sun, color: "text-fuchsia-400", glow: "shadow-[0_0_15px_rgba(217,70,239,0.5)]", gradient: "from-fuchsia-400 to-purple-600" },
+  { id: "effect_sparkles", type: "effect", name: "Astral Dust", description: "Golden sparkles drift and twinkle around your avatar â€” and shimmer across your whole profile when someone opens it.", price: 100, icon: Sparkles, color: "text-yellow-300", glow: "shadow-[0_0_15px_rgba(253,224,71,0.5)]", gradient: "from-yellow-300 to-yellow-600" },
+  { id: "effect_snow", type: "effect", name: "Winter's Veil", description: "Snowflakes fall gently around your avatar â€” and drift across your whole profile when someone opens it.", price: 90, icon: Snowflake, color: "text-sky-300", glow: "shadow-[0_0_15px_rgba(125,211,252,0.5)]", gradient: "from-sky-300 to-blue-500" },
+  { id: "effect_embers", type: "effect", name: "Cinder Storm", description: "Glowing embers rise around your avatar â€” and float up across your whole profile when someone opens it.", price: 90, icon: Flame, color: "text-orange-400", glow: "shadow-[0_0_15px_rgba(251,146,60,0.5)]", gradient: "from-orange-400 to-red-600" },
 ];
 
 export default function ShopPage() {
@@ -41,7 +41,7 @@ export default function ShopPage() {
   const { toast } = useToast();
   const router = useRouter();
   const [buyingId, setBuyingId] = useState<string | null>(null);
-  // Discovery controls — as the catalog grows these keep everything findable.
+  // Discovery controls â€” as the catalog grows these keep everything findable.
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<"all" | "rare" | "frame" | "effect">("all");
   const [owned, setOwned] = useState<"all" | "unowned" | "owned">("all");
@@ -53,7 +53,7 @@ export default function ShopPage() {
   }, [isLoaded, user, router]);
 
   if (!isLoaded) return <div className="min-h-screen bg-[#09090b] flex items-center justify-center"><div className="animate-spin w-8 h-8 border-2 border-indigo-500 rounded-full border-t-transparent" /></div>;
-  // Open to every logged-in user — cosmetics are the main Arise Points sink.
+  // Open to every logged-in user â€” cosmetics are the main Arise Points sink.
   if (!user) return null; // redirect to home is handled by the effect above
 
   const getInventoryArray = (type: string) => {
@@ -208,12 +208,12 @@ export default function ShopPage() {
 
         {isRare && (
           <span className="relative z-10 inline-flex items-center gap-1.5 mb-2 w-fit text-[11px] font-black uppercase tracking-[0.2em] px-2.5 py-1 rounded-full text-white bg-gradient-to-r from-fuchsia-500 to-purple-600 shadow-[0_0_14px_rgba(217,70,239,0.6)]">
-            ✦ Extreme Rare
+            âœ¦ Extreme Rare
           </span>
         )}
         {isUnique && (
           <span className="relative z-10 inline-flex items-center gap-1.5 mb-2 w-fit text-[11px] font-black uppercase tracking-[0.2em] px-2.5 py-1 rounded-full text-emerald-950 bg-gradient-to-r from-emerald-300 to-lime-300 shadow-[0_0_14px_rgba(52,211,153,0.6)]">
-            🐸 Unique
+            ðŸ¸ Unique
           </span>
         )}
         <h3 className={`relative z-10 text-2xl font-black mb-2 tracking-tight ${item.color}`}>{item.name}</h3>
@@ -251,7 +251,7 @@ export default function ShopPage() {
 
   const SECTIONS = [
     { key: "rare", title: "Extreme Rare", blurb: "The single rarest power on the platform. The whole profile, transformed." },
-    { key: "frame", title: "Avatar Frames", blurb: "An animated ring that spins around your avatar — everywhere it appears." },
+    { key: "frame", title: "Avatar Frames", blurb: "An animated ring that spins around your avatar â€” everywhere it appears." },
     { key: "effect", title: "Avatar Effects", blurb: "Floating particles around your avatar, plus a matching flourish across your whole profile." },
   ];
 
@@ -288,7 +288,7 @@ export default function ShopPage() {
     { key: "effect" as const, label: "Effects", icon: Sparkles, count: sectionItems("effect").length },
   ];
 
-  // What the user is wearing right now — quick glance + one-tap unequip.
+  // What the user is wearing right now â€” quick glance + one-tap unequip.
   const equippedItems = SHOP_ITEMS.filter((it) => getActiveField(it.type) === it.id);
 
   return (
@@ -312,7 +312,7 @@ export default function ShopPage() {
                 <ShoppingBag className="w-10 h-10 md:w-14 md:h-14 text-fuchsia-500 drop-shadow-[0_0_15px_rgba(217,70,239,0.5)]" /> 
                 Arise Shop
               </h1>
-              <p className="text-slate-400 text-lg md:text-xl font-medium max-w-2xl">Dress up your avatar with animated frames and effects that follow you across Da Vinci — on your profile, your comments, and the nav bar.</p>
+              <p className="text-slate-400 text-lg md:text-xl font-medium max-w-2xl">Dress up your avatar with animated frames and effects that follow you across Shreepach â€” on your profile, your comments, and the nav bar.</p>
             </div>
             <motion.div 
               whileHover={{ scale: 1.05 }}
@@ -325,7 +325,7 @@ export default function ShopPage() {
                 <p className="text-sm text-slate-400 font-medium">Your Balance</p>
                 <p className="text-2xl font-black text-white">
                   {isLeadDev(user) ? (
-                    <span className="text-fuchsia-400 drop-shadow-[0_0_8px_rgba(232,121,249,0.8)]">∞ AP</span>
+                    <span className="text-fuchsia-400 drop-shadow-[0_0_8px_rgba(232,121,249,0.8)]">âˆž AP</span>
                   ) : (
                     `${user.arisePoints || 0} AP`
                   )}
@@ -334,7 +334,7 @@ export default function ShopPage() {
             </motion.div>
           </motion.div>
 
-          {/* ── Equipped now — what you're wearing, with one-tap unequip ── */}
+          {/* â”€â”€ Equipped now â€” what you're wearing, with one-tap unequip â”€â”€ */}
           {equippedItems.length > 0 && (
             <motion.div
               initial={{ opacity: 0 }}
@@ -361,7 +361,7 @@ export default function ShopPage() {
             </motion.div>
           )}
 
-          {/* ── Sticky toolbar: search, ownership, category tabs ── */}
+          {/* â”€â”€ Sticky toolbar: search, ownership, category tabs â”€â”€ */}
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -375,7 +375,7 @@ export default function ShopPage() {
                   <input
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
-                    placeholder="Search frames, effects…"
+                    placeholder="Search frames, effectsâ€¦"
                     className="w-full rounded-xl border border-white/10 bg-white/5 py-2.5 pl-10 pr-9 text-sm transition placeholder:text-slate-500 focus:border-indigo-500/60 focus:outline-none"
                   />
                   {query && (
@@ -455,7 +455,7 @@ export default function ShopPage() {
             </div>
           )}
 
-          {/* ── Nothing matches ── */}
+          {/* â”€â”€ Nothing matches â”€â”€ */}
           {shownCount === 0 && (
             <div className="flex flex-col items-center gap-4 rounded-3xl border border-white/10 bg-white/[0.02] px-6 py-16 text-center">
               <Sparkles className="h-10 w-10 text-slate-600" />

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useRef, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
@@ -42,11 +42,11 @@ export default function AuthSync() {
               setDiscordData({ username, email, avatar: avatar || undefined });
               setShowInviteModal(true);
             } else if (res.success) {
-              console.log("Successfully synced Discord auth with Da Vinci backend.");
+              console.log("Successfully synced Discord auth with Shreepach backend.");
               const uName = (res.user?.username || username).toLowerCase();
-              if (uName === 'xhackerdevil') toast('Welcome Bug Founder 🐞', "success");
-              else if (isLeadDev(uName)) toast('Welcome Back, Lead Developer 👑', "success");
-              else if (isAdmin(uName)) toast('Welcome Back, Admin 👑', "success");
+              if (uName === 'xhackerdevil') toast('Welcome Bug Founder ðŸž', "success");
+              else if (isLeadDev(uName)) toast('Welcome Back, Lead Developer ðŸ‘‘', "success");
+              else if (isAdmin(uName)) toast('Welcome Back, Admin ðŸ‘‘', "success");
               else toast('Welcome Back!', "success");
               router.replace('/');
             } else {

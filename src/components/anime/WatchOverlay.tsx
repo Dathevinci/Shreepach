@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState, useCallback, useRef } from "react";
 import { createPortal } from "react-dom";
@@ -146,7 +146,7 @@ export default function WatchOverlay({
     return () => window.removeEventListener("keydown", handleKey);
   }, [onClose, showEpisodePanel, showServerPanel, togglePlay]);
 
-  // Auto-hide controls — but always stay visible while paused, like Netflix
+  // Auto-hide controls â€” but always stay visible while paused, like Netflix
   const resetControlsTimer = useCallback(() => {
     setControlsVisible(true);
     if (controlsTimerRef.current) clearTimeout(controlsTimerRef.current);
@@ -244,7 +244,7 @@ export default function WatchOverlay({
       }
       setStreamData(data);
 
-      // Find a source to play — prefer "auto", "default" for ABR, then "1080p"
+      // Find a source to play â€” prefer "auto", "default" for ABR, then "1080p"
       const source =
         data.sources.find(s => s.quality === "auto") ||
         data.sources.find(s => s.quality === "default") ||
@@ -375,7 +375,7 @@ export default function WatchOverlay({
       onMouseMove={resetControlsTimer}
       onClick={resetControlsTimer}
     >
-      {/* ═══ TOP BAR ═══ */}
+      {/* â•â•â• TOP BAR â•â•â• */}
       <div className={`${activeSourceObj?.isEmbed ? 'relative' : 'absolute top-0'} left-0 right-0 z-50 transition-all duration-500 ${controlsVisible || activeSourceObj?.isEmbed ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"}`}>
         <div className="px-4 sm:px-8 py-6 flex items-center justify-between">
           <button onClick={onClose} className="p-2 hover:bg-white/10 rounded-full transition group">
@@ -387,7 +387,7 @@ export default function WatchOverlay({
         </div>
       </div>
 
-      {/* ═══ MAIN VIDEO AREA ═══ */}
+      {/* â•â•â• MAIN VIDEO AREA â•â•â• */}
       <div
         className="flex-1 relative flex items-center justify-center bg-black"
         onClick={() => { if (!activeSourceObj?.isEmbed && !loadingStream && !streamError) togglePlay(); }}
@@ -467,12 +467,12 @@ export default function WatchOverlay({
             </video>
           )}
 
-          {/* Custom Da Vinci Watermark Overlay (Covers up original source watermark) */}
+          {/* Custom Shreepach Watermark Overlay (Covers up original source watermark) */}
           <div className="absolute top-4 right-4 md:top-6 md:right-8 z-40 pointer-events-none select-none flex items-center gap-2 px-3 py-1.5 bg-black/60 backdrop-blur-md rounded-lg border border-white/5 shadow-2xl">
-            <img src="/logo.png" alt="Da Vinci" className="w-6 h-6 md:w-8 md:h-8 opacity-80" />
-            <span className="font-fell font-bold tracking-widest text-white/80 text-xs md:text-sm uppercase">Da Vinci</span>
+            <img src="/logo.png" alt="Shreepach" className="w-6 h-6 md:w-8 md:h-8 opacity-80" />
+            <span className="font-fell font-bold tracking-widest text-white/80 text-xs md:text-sm uppercase">Shreepach</span>
           </div>
-          {/* ═══ NETFLIX-STYLE PAUSE SCREEN ═══ */}
+          {/* â•â•â• NETFLIX-STYLE PAUSE SCREEN â•â•â• */}
           {!activeSourceObj?.isEmbed && !loadingStream && !streamError && !isPlaying && (
             <div className="absolute inset-0 z-20 bg-black/80 pointer-events-none flex flex-col justify-center">
               {/* Left-aligned episode info block */}
@@ -505,7 +505,7 @@ export default function WatchOverlay({
         </div>
       </div>
 
-      {/* ═══ BOTTOM BAR ═══ */}
+      {/* â•â•â• BOTTOM BAR â•â•â• */}
       <div
         className={`${activeSourceObj?.isEmbed ? 'relative bg-black' : 'absolute bottom-0'} left-0 right-0 z-50 transition-all duration-500 ${controlsVisible || activeSourceObj?.isEmbed ? "opacity-100 translate-y-0" : "opacity-0 translate-y-full pointer-events-none"}`}
         onClick={(e) => e.stopPropagation()}
@@ -636,7 +636,7 @@ export default function WatchOverlay({
           </div>
         </div>
 
-      {/* ═══ QUALITY / SERVER PANEL ═══ */}
+      {/* â•â•â• QUALITY / SERVER PANEL â•â•â• */}
       {showServerPanel && (
         <>
           <div className="fixed inset-0 z-[60]" onClick={() => setShowServerPanel(false)} />
@@ -663,7 +663,7 @@ export default function WatchOverlay({
         </>
       )}
 
-      {/* ═══ EPISODE PANEL (Netflix-style sidebar) ═══ */}
+      {/* â•â•â• EPISODE PANEL (Netflix-style sidebar) â•â•â• */}
       {showEpisodePanel && (
         <>
           <div className="fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm" onClick={() => setShowEpisodePanel(false)} />
