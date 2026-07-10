@@ -1,7 +1,7 @@
 import PageTransition from "@/components/layout/PageTransition";
-import Link from "next/link";
 import { BookOpen } from "lucide-react";
 import { getTrendingNovels, getPopularNovels } from "@/lib/novel-api";
+import NovelModalTrigger from "@/components/ui/NovelModalTrigger";
 
 export const revalidate = 3600;
 
@@ -24,7 +24,7 @@ export default async function Home() {
       </h2>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
         {novels.map((novel: any) => (
-          <Link key={novel.id} href={`/novel/${novel.id}`} className="group relative block aspect-[2/3] rounded-xl overflow-hidden shadow-lg border border-white/10 hover:border-indigo-500/50 transition">
+          <NovelModalTrigger key={novel.id} novel={novel} className="group relative block aspect-[2/3] rounded-xl overflow-hidden shadow-lg border border-white/10 hover:border-indigo-500/50 transition text-left">
             <img 
               src={novel.coverImage?.extraLarge || novel.coverImage?.large} 
               alt={novel.title.userPreferred || novel.title.english} 
@@ -40,7 +40,7 @@ export default async function Home() {
                 {novel.averageScore && <span>⭐ {novel.averageScore}%</span>}
               </div>
             </div>
-          </Link>
+          </NovelModalTrigger>
         ))}
       </div>
     </div>

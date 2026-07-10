@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -51,7 +51,7 @@ import { Suspense } from "react";
 
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { ToastProvider } from "@/components/ui/Toast";
-import AnimeModalProvider from "@/components/providers/AnimeModalProvider";
+import NovelModalProvider from "@/components/providers/NovelModalProvider";
 
 export const metadata: Metadata = {
   title: "Shreepach",
@@ -68,7 +68,7 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} ${permanentMarker.variable} ${cinzel.variable} ${ebGaramond.variable} ${fellEnglish.variable} bg-[#050505] text-white antialiased min-h-screen flex flex-col transition-colors duration-300 overflow-x-hidden`}>
         <ThemeProvider>
           <ToastProvider>
-            <AnimeModalProvider>
+            <NovelModalProvider>
               <Suspense fallback={null}>
                 <AuthSync />
               </Suspense>
@@ -81,7 +81,7 @@ export default function RootLayout({
                 <Footer />
                 <MobileBottomNav />
               </InviteOnlyGuard>
-            </AnimeModalProvider>
+            </NovelModalProvider>
           </ToastProvider>
         </ThemeProvider>
       </body>

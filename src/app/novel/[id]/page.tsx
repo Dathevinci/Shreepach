@@ -4,8 +4,9 @@ import { BookOpen, List, ChevronRight } from "lucide-react";
 import ResumeReading from "./ResumeReading";
 import { getNovelDetails, getNovelChapters } from "@/lib/novel-api";
 
-export default async function NovelDetails({ params }: { params: { id: string } }) {
-  const novelId = parseInt(params.id, 10);
+export default async function NovelDetails({ params }: { params: Promise<{ id: string }> }) {
+  const resolvedParams = await params;
+  const novelId = parseInt(resolvedParams.id, 10);
   if (isNaN(novelId)) return <div className="min-h-screen pt-40 text-center text-white">Invalid Novel ID</div>;
 
   let novel = null;
