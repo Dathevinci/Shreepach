@@ -151,12 +151,13 @@ export async function getNovelSlugFromTitle(title: string): Promise<string | nul
     const json = await res.json();
     
     if (json && json.length > 0) {
-      // Normalize a title into comparable words (lowercase, remove punctuation, filter short words)
+      // Normalize a title into comparable words (lowercase, remove punctuation)
       const normalize = (t: string) => 
         t.toLowerCase()
          .replace(/[^a-z0-9\s]/gi, ' ')  // strip all punctuation
+         .trim()
          .split(/\s+/)
-         .filter(w => w.length > 2);      // only words with 3+ chars
+         .filter(w => w.length > 0);
       
       const searchWords = normalize(title);
       if (searchWords.length === 0) return null;
@@ -168,19 +169,19 @@ export async function getNovelSlugFromTitle(title: string): Promise<string | nul
         
         // Count how many search words appear in the result title
         const matchingWords = searchWords.filter(sw => 
-          resultWords.some(rw => rw === sw || rw.includes(sw) || sw.includes(rw))
+          resultWords.some(rw => rw === sw)
         );
         
-        // Score = percentage of search words that matched
+        // Score = percentage of search words that matched exactly
         const score = matchingWords.length / searchWords.length;
         
-        // Also check if result title is contained in search or vice versa (handles exact substring matches)
+        // Strict substring check (ignoring punctuation)
         const searchLower = title.toLowerCase().replace(/[^a-z0-9\s]/gi, '').trim();
         const resultLower = result.title.toLowerCase().replace(/[^a-z0-9\s]/gi, '').trim();
-        const isSubstring = searchLower.includes(resultLower) || resultLower.includes(searchLower);
+        const isExactSubstring = searchLower === resultLower || searchLower.includes(resultLower) || resultLower.includes(searchLower);
         
-        // Accept if: 40%+ words match, OR it's a substring match with at least 2 matching words
-        const isGoodMatch = score >= 0.4 || (isSubstring && matchingWords.length >= 2);
+        // Accept if: 75%+ words match exactly, OR it's a strict substring match
+        const isGoodMatch = score >= 0.75 || isExactSubstring;
         
         if (isGoodMatch && (!bestMatch || score > bestMatch.score)) {
           bestMatch = { slug: result.slug, score };
