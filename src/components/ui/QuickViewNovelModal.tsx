@@ -191,6 +191,7 @@ export default function QuickViewNovelModal({ novel, options, onClose }: QuickVi
           </motion.div>
         </div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 }
