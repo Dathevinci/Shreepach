@@ -144,18 +144,32 @@ export async function searchNovels(variables: any) {
  * Searches the local API using the novel's title to find its slug on NovelFull.
  */
 export async function getNovelSlugFromTitle(title: string): Promise<string | null> {
+  const query = encodeURIComponent(title);
   try {
-    const res = await fetch(`${NOVEL_API}/api/novels/search?q=${encodeURIComponent(title)}`, { next: { revalidate: 86400 } });
+    const res = await fetch(`${NOVEL_API}/api/novels/search?q=${query}`, { next: { revalidate: 86400 } });
     if (!res.ok) return null;
     const json = await res.json();
-    // Assuming the API returns a list of results, we take the best match (first one)
+    
     if (json && json.length > 0) {
+      // Find the first result that actually shares some words with the search query
+      // NovelFull's search can return random popular novels if it can't find an exact match
+      const searchWords = title.toLowerCase().split(/[\s:.-]+/);
+      
+      for (const result of json) {
+        const resultTitle = result.title.toLowerCase();
+        // If the result title contains at least one meaningful word from our search
+        if (searchWords.some(w => w.length > 3 && resultTitle.includes(w))) {
+          return result.slug;
+        }
+      }
+      
+      // If no good match, just return the first one (fallback)
       return json[0].slug;
     }
     return null;
-  } catch (err) {
+  } catch (err: any) {
     console.error("Failed to fetch slug from manga-novel-api:", err);
-    return null;
+    throw new Error("Cannot connect to Manga Novel API. Is it running?");
   }
 }
 

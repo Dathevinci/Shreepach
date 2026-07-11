@@ -25,9 +25,19 @@ export default function ChapterList({ anime }: { anime: Anime }) {
       setError(null);
 
       try {
-        const title = anime.title_english || anime.title;
-        // Step 1: Find the slug
-        const slug = await getNovelSlugFromTitle(title);
+        // Step 1: Find the slug by trying multiple titles (NovelFull search is very strict)
+        const possibleTitles = [
+          anime.title_japanese, 
+          anime.title, // Usually userPreferred or romaji
+          anime.title_english,
+        ].filter(Boolean) as string[];
+
+        let slug: string | null = null;
+        for (const title of possibleTitles) {
+          slug = await getNovelSlugFromTitle(title);
+          if (slug) break;
+        }
+
         if (!isMounted) return;
 
         if (!slug) {
