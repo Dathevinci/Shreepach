@@ -146,7 +146,7 @@ export async function searchNovels(variables: any) {
 export async function getNovelSlugFromTitle(title: string): Promise<string | null> {
   const query = encodeURIComponent(title);
   try {
-    const res = await fetch(`${NOVEL_API}/api/novels/search?q=${query}`, { next: { revalidate: 86400 } });
+    const res = await fetch(`${NOVEL_API}/api/novels/search?q=${query}&_t=1`, { next: { revalidate: 3600 } });
     if (!res.ok) return null;
     const json = await res.json();
     
