@@ -10,9 +10,9 @@ import TrackerButton from "@/components/anime/TrackerButton";
 import { useToast } from "@/components/ui/Toast";
 import { useLockBodyScroll } from "@/hooks/useLockBodyScroll";
 import { useAnimeModal } from "@/components/providers/AnimeModalProvider";
-import { getAnimeDetails, getAnimeCharacters, getAnimeRecommendations, getYouTubeId } from "@/lib/jikan";
-import { getAnimeDetailsKitsu } from "@/lib/kitsu";
-import EpisodeList from "@/components/anime/EpisodeList";
+import { getYouTubeId } from "@/lib/jikan";
+import { getNovelDetails } from "@/lib/novels";
+import ChapterList from "@/components/anime/ChapterList";
 import CommunityFeed from "@/components/community/CommunityFeed";
 import { AnimeModalOptions } from "@/components/providers/AnimeModalProvider";
 
@@ -61,16 +61,10 @@ export default function QuickViewModal({ anime, options, onClose, onPlayTrailer 
       }
 
       try {
-        const full = await getAnimeDetails(anime.mal_id);
+        const full = await getNovelDetails(anime.mal_id);
         if (isMounted) setFullAnime(full);
       } catch (err) {
-        console.error("Failed to load full anime details via AniList:", err);
-        try {
-          const kitsuFull = await getAnimeDetailsKitsu(anime.mal_id);
-          if (isMounted) setFullAnime(kitsuFull);
-        } catch (kitsuErr) {
-          console.error("Kitsu fallback also failed:", kitsuErr);
-        }
+        console.error("Failed to load full novel details via AniList:", err);
       }
     };
 
@@ -78,40 +72,10 @@ export default function QuickViewModal({ anime, options, onClose, onPlayTrailer 
     return () => { isMounted = false; };
   }, [anime]);
 
-  // Fetch cast — AniList first, Jikan characters as backup
+  // Characters & Recommendations are omitted for now since the local novel scraper doesn't provide them yet.
   useEffect(() => {
-    if (!anime) return;
-    let isMounted = true;
-
-    const fetchCast = async () => {
-      try {
-        const characters = await getAnimeCharacters(anime.mal_id);
-        if (isMounted) setCast(characters);
-      } catch (err) {
-        console.error("Failed to fetch characters via AniList:", err);
-      }
-    };
-
-    fetchCast();
-    return () => { isMounted = false; };
-  }, [anime]);
-
-  // Fetch "More Like This" recommendations
-  useEffect(() => {
-    if (!anime) return;
-    let isMounted = true;
-
-    const fetchRecommendationsAsync = async () => {
-      try {
-        const recs = await getAnimeRecommendations(anime.mal_id);
-        if (isMounted) setRecommendations(recs);
-      } catch (err) {
-        console.error("Failed to load recommendations via AniList:", err);
-      }
-    };
-
-    fetchRecommendationsAsync();
-    return () => { isMounted = false; };
+    setCast([]);
+    setRecommendations([]);
   }, [anime]);
 
   if (!mounted) return null;
@@ -291,7 +255,7 @@ export default function QuickViewModal({ anime, options, onClose, onPlayTrailer 
               </div>
             </div>
 
-            {/* ═══ EPISODES / DISCUSSIONS TABS ═══ */}
+            {/* ═══ CHAPTERS / DISCUSSIONS TABS ═══ */}
             <div className="px-6 sm:px-8 md:px-12 pb-8 border-t border-[#404040]/50 pt-6">
               <div className="flex gap-6 border-b border-white/10 mb-6">
                 <button
@@ -300,7 +264,7 @@ export default function QuickViewModal({ anime, options, onClose, onPlayTrailer 
                     activeTab === "episodes" ? "border-indigo-500 text-white" : "border-transparent text-slate-400 hover:text-white"
                   }`}
                 >
-                  Episodes
+                  Chapters
                 </button>
                 <button
                   onClick={() => setActiveTab("discussions")}
@@ -313,11 +277,7 @@ export default function QuickViewModal({ anime, options, onClose, onPlayTrailer 
               </div>
 
               {activeTab === "episodes" ? (
-                <EpisodeList 
-                  anime={displayAnime} 
-                  autoPlayProp={options?.autoPlay} 
-                  autoPlayEpProp={options?.startEpisode} 
-                />
+                <ChapterList anime={displayAnime} />
               ) : (
                 <CommunityFeed
                   animeId={displayAnime.mal_id}
