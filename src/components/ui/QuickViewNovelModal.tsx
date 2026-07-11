@@ -6,8 +6,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Play, BookOpen } from "lucide-react";
 import Link from "next/link";
 import { useLockBodyScroll } from "@/hooks/useLockBodyScroll";
-import { getNovelDetails, getNovelChapters } from "@/lib/novel-api";
+import { getNovelDetails } from "@/lib/novel-api";
 import { NovelModalOptions } from "@/components/providers/NovelModalProvider";
+import ChapterList from "@/components/anime/ChapterList";
 
 interface QuickViewNovelModalProps {
   novel: any;
@@ -18,7 +19,6 @@ interface QuickViewNovelModalProps {
 export default function QuickViewNovelModal({ novel, options, onClose }: QuickViewNovelModalProps) {
   const [mounted, setMounted] = useState(false);
   const [fullNovel, setFullNovel] = useState<any | null>(novel);
-  const [chapters, setChapters] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useLockBodyScroll();
@@ -36,7 +36,7 @@ export default function QuickViewNovelModal({ novel, options, onClose }: QuickVi
     return () => window.removeEventListener("keydown", handleKey);
   }, [onClose]);
 
-  // Fetch full novel details and chapters
+  // Fetch full novel details
   useEffect(() => {
     if (!novel) return;
     let isMounted = true;
@@ -44,12 +44,10 @@ export default function QuickViewNovelModal({ novel, options, onClose }: QuickVi
     const loadData = async () => {
       try {
         setIsLoading(true);
-        // If we only have partial data from homepage, get full
-        const details = await getNovelDetails(novel.id);
+        const novelId = novel.mal_id || novel.id;
+        const details = await getNovelDetails(novelId);
         if (isMounted && details) {
           setFullNovel(details);
-          const chaps = await getNovelChapters(details.title.romaji || details.title.english);
-          if (isMounted) setChapters(chaps);
         }
       } catch (err) {
         console.error("Failed to load novel details:", err);
@@ -65,9 +63,14 @@ export default function QuickViewNovelModal({ novel, options, onClose }: QuickVi
   if (!mounted) return null;
 
   const displayNovel = fullNovel || novel;
-  const title = displayNovel?.title?.userPreferred || displayNovel?.title?.english || "Unknown Title";
-  const coverUrl = displayNovel?.coverImage?.extraLarge || displayNovel?.coverImage?.large;
-  const bannerUrl = displayNovel?.bannerImage || coverUrl;
+  
+  // Safely extract properties whether it's a Jikan mapping or raw AniList object
+  const title = typeof displayNovel?.title === 'string'
+    ? displayNovel.title
+    : (displayNovel?.title?.userPreferred || displayNovel?.title?.english || "Unknown Title");
+    
+  const coverUrl = displayNovel?.images?.jpg?.large_image_url || displayNovel?.coverImage?.extraLarge || displayNovel?.coverImage?.large;
+  const bannerUrl = displayNovel?.bannerImage || displayNovel?.trailer?.images?.maximum_image_url || coverUrl;
 
   return createPortal(
     <AnimatePresence>
@@ -123,25 +126,17 @@ export default function QuickViewNovelModal({ novel, options, onClose }: QuickVi
                     {displayNovel.status && <span>{displayNovel.status}</span>}
                     {displayNovel.genres && (
                       <div className="flex gap-2">
-                        {displayNovel.genres.slice(0, 3).map((g: string) => (
-                          <span key={g} className="px-2 py-0.5 bg-white/10 rounded-full text-xs">
-                            {g}
-                          </span>
-                        ))}
+                        {displayNovel.genres.slice(0, 3).map((g: any, i: number) => {
+                          const genreName = typeof g === 'string' ? g : (g.name || g);
+                          return (
+                            <span key={genreName + i} className="px-2 py-0.5 bg-white/10 rounded-full text-xs">
+                              {genreName}
+                            </span>
+                          );
+                        })}
                       </div>
                     )}
                   </div>
-                  
-                  {chapters.length > 0 && (
-                    <Link
-                      href={`/novel/${displayNovel.id}/read/${chapters[0].id}`}
-                      className="inline-flex items-center gap-2 bg-white text-black hover:bg-indigo-500 hover:text-white font-bold py-3 px-8 rounded-full transition"
-                      onClick={onClose}
-                    >
-                      <Play className="w-5 h-5 fill-current" />
-                      Read First Chapter
-                    </Link>
-                  )}
                 </div>
               </div>
             </div>
@@ -152,7 +147,7 @@ export default function QuickViewNovelModal({ novel, options, onClose }: QuickVi
                 <h3 className="text-2xl font-bold font-cinzel text-white mb-4">Synopsis</h3>
                 <div 
                   className="text-slate-300 text-lg leading-relaxed font-garamond"
-                  dangerouslySetInnerHTML={{ __html: displayNovel?.description || "No description available." }}
+                  dangerouslySetInnerHTML={{ __html: displayNovel?.description || displayNovel?.synopsis || "No description available." }}
                 />
               </div>
 
@@ -163,26 +158,10 @@ export default function QuickViewNovelModal({ novel, options, onClose }: QuickVi
                     Chapters
                   </h3>
                   {isLoading ? (
-                    <div className="text-slate-400 animate-pulse">Loading chapters...</div>
+                    <div className="text-slate-400 animate-pulse">Loading details...</div>
                   ) : (
                     <div className="bg-white/5 border border-white/10 rounded-xl p-4 max-h-[400px] overflow-y-auto custom-scrollbar">
-                      <div className="space-y-2">
-                        {chapters.map((chapter: any, index: number) => (
-                          <Link 
-                            key={chapter.id} 
-                            href={`/novel/${displayNovel.id}/read/${chapter.id}`}
-                            onClick={onClose}
-                            className="flex items-center justify-between p-3 rounded-lg hover:bg-white/10 transition border border-transparent hover:border-white/10 group"
-                          >
-                            <span className="font-medium text-slate-200 group-hover:text-indigo-300 transition line-clamp-1 pr-4">
-                              {chapter.title || `Chapter ${chapter.number || index + 1}`}
-                            </span>
-                          </Link>
-                        ))}
-                        {chapters.length === 0 && (
-                          <p className="text-slate-500 italic">No chapters available.</p>
-                        )}
-                      </div>
+                      <ChapterList anime={novel} />
                     </div>
                   )}
                 </div>
