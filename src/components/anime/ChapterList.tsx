@@ -79,26 +79,32 @@ export default function ChapterList({ anime, onClose }: { anime: Anime; onClose?
     );
   }
 
-  // ── Error ──
-  if (error) {
-    return (
-      <div className="flex flex-col items-center justify-center py-20 bg-white/5 rounded-2xl border border-white/5">
-        <AlertCircle className="w-16 h-16 text-red-500 mb-4" />
-        <h3 className="text-xl font-bold text-white mb-2">Could Not Load Chapters</h3>
-        <p className="text-slate-400 text-center max-w-md">{error}</p>
-      </div>
-    );
-  }
+  // ── Error or No Chapters ──
+  if (error || chapters.length === 0) {
+    const isNotFound = error?.includes("not found") || chapters.length === 0;
+    const titleForSearch = anime.title_english || anime.title || "this novel";
+    const googleSearchUrl = `https://www.google.com/search?q=Read+${encodeURIComponent(titleForSearch)}+novel+online`;
 
-  // ── No chapters ──
-  if (chapters.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-20 bg-white/5 rounded-2xl border border-white/5">
-        <BookOpen className="w-16 h-16 text-slate-500 mb-4" />
-        <h3 className="text-xl font-bold text-white mb-2">No Chapters Available</h3>
-        <p className="text-slate-400 text-center max-w-md">
-          Chapters are not yet available for reading. Check back later.
+      <div className="flex flex-col items-center justify-center py-16 px-4 bg-white/[0.02] rounded-2xl border border-white/5 text-center">
+        <BookOpen className="w-16 h-16 text-slate-500/50 mb-6" />
+        <h3 className="text-2xl font-bold text-white mb-3">
+          {isNotFound ? "Not Available Yet" : "Could Not Load Chapters"}
+        </h3>
+        <p className="text-slate-400 max-w-md mb-8 leading-relaxed">
+          {isNotFound 
+            ? "We couldn't find chapters for this novel in our current reading database. It might be officially licensed, unpublished, or known under a different name."
+            : error}
         </p>
+        
+        <a 
+          href={googleSearchUrl} 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 px-8 py-3 bg-white/10 hover:bg-white/20 text-white font-bold rounded-full transition-colors border border-white/10 hover:border-white/20"
+        >
+          Search Web for Chapters
+        </a>
       </div>
     );
   }
