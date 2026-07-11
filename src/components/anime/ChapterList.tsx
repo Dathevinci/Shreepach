@@ -6,7 +6,7 @@ import { Loader2, Tv, AlertCircle, Play, ChevronDown, Clock, BookOpen } from "lu
 import { Anime } from "@tutkli/jikan-ts";
 import Link from "next/link";
 
-export default function ChapterList({ anime }: { anime: Anime }) {
+export default function ChapterList({ anime, onClose }: { anime: Anime; onClose?: () => void }) {
   const [chapters, setChapters] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -133,10 +133,16 @@ export default function ChapterList({ anime }: { anime: Anime }) {
       {/* ── Chapter List ── */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {chapters.map((chap, idx) => {
+          const chapterNumber = (activePage - 1) * 50 + idx + 1; // Assuming 50 per page usually
+          const titleToDisplay = chap.title || `Chapter ${chapterNumber}`;
+
           return (
             <Link
               key={chap.slug || idx}
               href={`/novel/${anime.mal_id}/read/${chap.slug}?novelSlug=${novelSlug}`}
+              onClick={() => {
+                if (onClose) onClose();
+              }}
               className="group flex flex-col justify-center p-4 bg-white/5 border border-white/10 hover:border-indigo-500/50 hover:bg-white/10 transition-colors rounded-xl cursor-pointer"
             >
               <div className="flex items-start gap-3">
@@ -144,8 +150,8 @@ export default function ChapterList({ anime }: { anime: Anime }) {
                   <BookOpen className="w-5 h-5 text-indigo-400 group-hover:text-white transition-colors" />
                 </div>
                 <div className="flex-1 min-w-0 pt-1">
-                  <h4 className="text-white font-bold text-sm truncate" title={chap.title}>
-                    {chap.title}
+                  <h4 className="text-white font-bold text-sm truncate" title={titleToDisplay}>
+                    {titleToDisplay}
                   </h4>
                 </div>
               </div>

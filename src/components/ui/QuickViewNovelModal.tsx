@@ -161,7 +161,7 @@ export default function QuickViewNovelModal({ novel, options, onClose }: QuickVi
                     <div className="text-slate-400 animate-pulse">Loading details...</div>
                   ) : (
                     <div className="bg-white/5 border border-white/10 rounded-xl p-4 max-h-[400px] overflow-y-auto custom-scrollbar">
-                      <ChapterList anime={novel} />
+                      <ChapterList anime={novel} onClose={onClose} />
                     </div>
                   )}
                 </div>
