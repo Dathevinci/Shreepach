@@ -151,20 +151,43 @@ export async function getNovelSlugFromTitle(title: string): Promise<string | nul
     const json = await res.json();
     
     if (json && json.length > 0) {
-      // Find the first result that actually shares some words with the search query
-      // NovelFull's search can return random popular novels if it can't find an exact match
-      const searchWords = title.toLowerCase().split(/[\s:.-]+/);
+      // Normalize a title into comparable words (lowercase, remove punctuation, filter short words)
+      const normalize = (t: string) => 
+        t.toLowerCase()
+         .replace(/[^a-z0-9\s]/gi, ' ')  // strip all punctuation
+         .split(/\s+/)
+         .filter(w => w.length > 2);      // only words with 3+ chars
+      
+      const searchWords = normalize(title);
+      if (searchWords.length === 0) return null;
+      
+      let bestMatch: { slug: string; score: number } | null = null;
       
       for (const result of json) {
-        const resultTitle = result.title.toLowerCase();
-        // If the result title contains at least one meaningful word from our search
-        if (searchWords.some(w => w.length > 3 && resultTitle.includes(w))) {
-          return result.slug;
+        const resultWords = normalize(result.title);
+        
+        // Count how many search words appear in the result title
+        const matchingWords = searchWords.filter(sw => 
+          resultWords.some(rw => rw === sw || rw.includes(sw) || sw.includes(rw))
+        );
+        
+        // Score = percentage of search words that matched
+        const score = matchingWords.length / searchWords.length;
+        
+        // Also check if result title is contained in search or vice versa (handles exact substring matches)
+        const searchLower = title.toLowerCase().replace(/[^a-z0-9\s]/gi, '').trim();
+        const resultLower = result.title.toLowerCase().replace(/[^a-z0-9\s]/gi, '').trim();
+        const isSubstring = searchLower.includes(resultLower) || resultLower.includes(searchLower);
+        
+        // Accept if: 40%+ words match, OR it's a substring match with at least 2 matching words
+        const isGoodMatch = score >= 0.4 || (isSubstring && matchingWords.length >= 2);
+        
+        if (isGoodMatch && (!bestMatch || score > bestMatch.score)) {
+          bestMatch = { slug: result.slug, score };
         }
       }
       
-      // If no good match, return null instead of a random popular novel
-      return null;
+      return bestMatch?.slug || null;
     }
     return null;
   } catch (err: any) {
