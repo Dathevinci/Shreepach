@@ -7,7 +7,7 @@ import AnimeStatusBadge from './AnimeStatusBadge';
 import { motion, AnimatePresence } from 'framer-motion';
 import TrackerButton from '@/components/anime/TrackerButton';
 import { useToast } from '@/components/ui/Toast';
-import { useAnimeModal } from '@/components/providers/AnimeModalProvider';
+import { useNovelModal } from '@/components/providers/NovelModalProvider';
 import TrailerModal from '../ui/TrailerModal';
 import { getYouTubeId, getAnimeTrailer } from '@/lib/jikan';
 import { usePreferences } from '@/hooks/usePreferences';
@@ -24,7 +24,7 @@ export default function AnimeCard({ anime }: AnimeCardProps) {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const cardRef = useRef<HTMLDivElement>(null);
 
-  const { openAnime } = useAnimeModal();
+  const { openNovel } = useNovelModal();
   const { toast } = useToast();
   const { preferences } = usePreferences();
 
@@ -45,7 +45,7 @@ export default function AnimeCard({ anime }: AnimeCardProps) {
 
   const handleOpen = () => {
     closeHover();
-    openAnime(anime);
+    openNovel(anime);
   };
 
   // Play the trailer. Cards coming from the Tracker/Liked lists are minimal
