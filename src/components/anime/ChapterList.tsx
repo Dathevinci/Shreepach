@@ -25,12 +25,20 @@ export default function ChapterList({ anime, onClose }: { anime: Anime; onClose?
       setError(null);
 
       try {
-        // Step 1: Find the slug by trying multiple titles (NovelFull search is very strict)
+        // Step 1: Find the slug by trying multiple titles
+        // Handle both AniList format (title is an object) and Jikan format (title is a string)
+        const titleObj = anime.title as any;
         const possibleTitles = [
-          anime.title_japanese, 
-          anime.title, // Usually userPreferred or romaji
+          // AniList format: title is { romaji, english, userPreferred }
+          ...(typeof titleObj === 'object' && titleObj !== null
+            ? [titleObj.romaji, titleObj.english, titleObj.userPreferred, titleObj.native]
+            : []),
+          // Jikan format: title is a string, with separate fields
+          ...(typeof titleObj === 'string' ? [titleObj] : []),
+          anime.title_japanese,
           anime.title_english,
-        ].filter(Boolean) as string[];
+          (anime as any).title_romaji,
+        ].filter((t): t is string => typeof t === 'string' && t.length > 0);
 
         let slug: string | null = null;
         for (const title of possibleTitles) {
