@@ -4,9 +4,9 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Clock, ExternalLink, PlayCircle } from "lucide-react";
 import CommunityFeed from "../community/CommunityFeed";
-import EpisodeList from "./EpisodeList";
+import ChapterList from "./ChapterList";
 import { Anime } from "@tutkli/jikan-ts";
-import { getYouTubeId } from "@/lib/jikan";
+
 
 import { useSearchParams } from 'next/navigation';
 
@@ -30,8 +30,8 @@ export default function AnimeTabs({ anime }: { anime: Anime }) {
 
   // Allow linking directly to a specific tab
   useEffect(() => {
-    if (tabParam === "watch" && !isUnreleased) {
-      setActiveTab("watch");
+    if (tabParam === "read" && !isUnreleased) {
+      setActiveTab("read");
     } else if (tabParam === "discussions") {
       setActiveTab("discussions");
     }
@@ -46,13 +46,13 @@ export default function AnimeTabs({ anime }: { anime: Anime }) {
         >
           Overview
         </button>
-        {/* Only show Watch tab for anime that have or will have episodes */}
+        {/* Only show Read tab for novels that are released */}
         {!isUnreleased && (
           <button 
-            onClick={() => setActiveTab("watch")}
-            className={`px-6 py-4 font-bold text-lg transition-colors border-b-2 flex items-center gap-2 whitespace-nowrap ${activeTab === "watch" ? "border-pink-500 text-pink-400" : "border-transparent text-slate-400 hover:text-white"}`}
+            onClick={() => setActiveTab("read")}
+            className={`px-6 py-4 font-bold text-lg transition-colors border-b-2 flex items-center gap-2 whitespace-nowrap ${activeTab === "read" ? "border-pink-500 text-pink-400" : "border-transparent text-slate-400 hover:text-white"}`}
           >
-            <PlayCircle className="w-5 h-5" /> Watch
+            <PlayCircle className="w-5 h-5" /> Read
           </button>
         )}
         <button 
@@ -87,22 +87,17 @@ export default function AnimeTabs({ anime }: { anime: Anime }) {
                 <h2 className="text-2xl font-bold mb-4">Official Links</h2>
                 <div className="flex flex-wrap gap-3">
                   <a href={anime.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 px-4 py-2 rounded-lg text-sm font-medium transition text-slate-300">
-                    <ExternalLink className="w-4 h-4" /> {(anime as any)._source === "jikan" ? "MyAnimeList" : "AniList"}
+                    <ExternalLink className="w-4 h-4" /> AniList
                   </a>
-                  {getYouTubeId(anime.trailer) && (
-                    <a href={`https://youtube.com/watch?v=${getYouTubeId(anime.trailer)}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 px-4 py-2 rounded-lg text-sm font-medium transition text-slate-300">
-                      <ExternalLink className="w-4 h-4" /> YouTube Trailer
-                    </a>
-                  )}
                 </div>
               </div>
             )}
         </div>
       )}
 
-      {activeTab === "watch" && (
+      {activeTab === "read" && (
         <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-          <EpisodeList anime={anime} />
+          <ChapterList anime={anime} />
         </div>
       )}
 

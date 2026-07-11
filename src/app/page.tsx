@@ -1,74 +1,82 @@
-import PageTransition from "@/components/layout/PageTransition";
-import { BookOpen } from "lucide-react";
-import { getTrendingNovels, getPopularNovels } from "@/lib/novel-api";
-import NovelModalTrigger from "@/components/ui/NovelModalTrigger";
+import { getDashboardNovels } from "@/lib/novels";
 
-export const revalidate = 3600;
+import AnimeCarousel from "@/components/anime/AnimeCarousel";
+import HeroBannerCarousel from "@/components/anime/HeroBannerCarousel";
+import { AlertTriangle } from "lucide-react";
+import PageTransition from "@/components/layout/PageTransition";
+import ContinueWatchingCarousel from "@/components/anime/ContinueWatchingCarousel";
+
+// Revalidate the dashboard frequently so a transient API outage can't leave a
+// stale "empty feed" cached for long — it recovers within ~1 minute.
+export const revalidate = 60;
 
 export default async function Home() {
-  let trending = [];
-  let popular = [];
-
+  let data = null;
   try {
-    trending = await getTrendingNovels();
-    popular = await getPopularNovels();
+    data = await getDashboardNovels();
   } catch (err) {
-    console.error("Failed to fetch novels:", err);
+    console.error("Dashboard API Error:", err);
   }
 
-  const renderNovelGrid = (novels: any[], title: string, icon: any) => (
-    <div className="mb-12">
-      <h2 className="text-2xl font-cinzel font-bold text-white mb-6 flex items-center gap-3">
-        {icon}
-        {title}
-      </h2>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
-        {novels.map((novel: any) => (
-          <NovelModalTrigger key={novel.id} novel={novel} className="group relative block aspect-[2/3] rounded-xl overflow-hidden shadow-lg border border-white/10 hover:border-indigo-500/50 transition text-left">
-            <img 
-              src={novel.coverImage?.extraLarge || novel.coverImage?.large} 
-              alt={novel.title.userPreferred || novel.title.english} 
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex flex-col justify-end p-4">
-              <h3 className="text-white font-bold text-sm line-clamp-2">{novel.title.userPreferred || novel.title.english}</h3>
-            </div>
-            
-            {/* Quick stats on hover */}
-            <div className="absolute top-0 left-0 right-0 p-3 bg-gradient-to-b from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-              <div className="flex justify-between text-xs font-medium text-white/90">
-                {novel.averageScore && <span>⭐ {novel.averageScore}%</span>}
-              </div>
-            </div>
-          </NovelModalTrigger>
-        ))}
+  if (!data) {
+    return (
+      <div className="min-h-screen pt-40 pb-20 px-4 flex flex-col items-center justify-center bg-[#09090b] text-center">
+        <AlertTriangle className="w-16 h-16 text-red-500 mb-6 animate-pulse" />
+        <h1 className="text-3xl font-black text-white mb-4">Database Offline</h1>
+        <p className="text-slate-400 max-w-md mx-auto text-lg">
+          The primary API is currently experiencing severe stability issues.
+        </p>
+        <p className="text-slate-500 max-w-md mx-auto mt-4">
+          We are actively monitoring the situation and your service will automatically resume the moment their servers are back online. Thank you for your patience!
+        </p>
       </div>
-    </div>
-  );
+    );
+  }
+
+  // Shuffle the trending novels for the hero banner so it changes every time
+  const shuffledTrending = [...data.trending.media].sort(() => 0.5 - Math.random());
+  const heroAnimes = shuffledTrending.slice(0, 5);
 
   return (
     <PageTransition>
-      <div className="pb-20 pt-32 min-h-screen bg-black/40 backdrop-blur-sm px-4 sm:px-6">
-        <div className="container mx-auto">
-          <div className="mb-12 text-center max-w-2xl mx-auto">
-            <h1 className="text-4xl md:text-5xl font-cinzel font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400 mb-4">
-              Discover Light Novels
-            </h1>
-            <p className="text-slate-400 text-lg font-garamond">
-              Explore the highest rated and trending novels, automatically fetched from AniList and synced with external reading sources.
-            </p>
-          </div>
-          
-          {trending.length > 0 && renderNovelGrid(trending, "Trending Now", <BookOpen className="w-6 h-6 text-indigo-400" />)}
-          {popular.length > 0 && renderNovelGrid(popular, "All Time Popular", <BookOpen className="w-6 h-6 text-purple-400" />)}
-
-          {trending.length === 0 && popular.length === 0 && (
-            <div className="text-center py-20 text-slate-400">
-              No novels found. AniList API might be down.
-            </div>
-          )}
+      <div className="pb-20 min-h-screen bg-black/40 backdrop-blur-sm">
+      {data.isFallback && (
+        <div className="relative z-30 bg-amber-500/10 border-b border-amber-500/20 text-amber-300 text-xs sm:text-sm font-medium text-center py-2 px-4">
+          AniList is currently unavailable — showing backup data.
         </div>
+      )}
+      {/* Cinematic Dashboard Hero */}
+      <HeroBannerCarousel animes={heroAnimes} />
+
+      {/* Carousels */}
+      <div className="relative z-20 space-y-4 pt-2">
+        <ContinueWatchingCarousel />
+        
+        {(() => {
+          const seen = new Set<number>();
+          
+          const filterUnique = (animes: any[]) => {
+            return animes.filter(a => {
+              if (seen.has(a.mal_id)) return false;
+              seen.add(a.mal_id);
+              return true;
+            });
+          };
+
+          const trending = filterUnique(data.trending?.media || []);
+          const popular = filterUnique(data.popular?.media || []);
+          const topRated = filterUnique(data.topRated?.media || []);
+
+          return (
+            <>
+              {trending.length > 0 && <AnimeCarousel title="Trending Novels" animes={trending} seeAllLink="/explore?sort=trending" />}
+              {popular.length > 0 && <AnimeCarousel title="Popular Novels" animes={popular} seeAllLink="/explore?sort=popularity" />}
+              {topRated.length > 0 && <AnimeCarousel title="Top Rated Novels" animes={topRated} seeAllLink="/explore?sort=score" />}
+            </>
+          );
+        })()}
       </div>
+    </div>
     </PageTransition>
   );
 }
