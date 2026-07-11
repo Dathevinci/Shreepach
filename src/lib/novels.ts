@@ -163,8 +163,8 @@ export async function getNovelSlugFromTitle(title: string): Promise<string | nul
         }
       }
       
-      // If no good match, just return the first one (fallback)
-      return json[0].slug;
+      // If no good match, return null instead of a random popular novel
+      return null;
     }
     return null;
   } catch (err: any) {
